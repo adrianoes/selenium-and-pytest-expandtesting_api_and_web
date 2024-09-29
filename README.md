@@ -48,6 +48,7 @@ Check then both to add both options in context menu.
 - [Faker 30.0.0 documentation](https://faker.readthedocs.io/en/stable/)
 - [Working with windows and tabs](https://www.selenium.dev/documentation/webdriver/interactions/windows/)
 - [Keeping browser open](https://www.selenium.dev/documentation/webdriver/browsers/chrome/#keeping-browser-open)
+- [Selenium: WebDriverException:Chrome failed to start: crashed as google-chrome is no longer running so ChromeDriver is assuming that Chrome has crashed](https://stackoverflow.com/a/53073789/10519428)
 
 # Tips:
 

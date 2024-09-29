@@ -2,6 +2,7 @@ import  pytest
 from    selenium  import  webdriver
 options = webdriver.ChromeOptions()
 options.add_experimental_option("detach", True)
+options.add_argument('--headless')
 from    selenium.webdriver.common.by  import  By
 from    faker import Faker
 # from selenium.webdriver.support.ui import WebDriverWait
