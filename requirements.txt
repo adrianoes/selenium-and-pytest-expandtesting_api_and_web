@@ -1,0 +1,5 @@
+pytest
+selenium
+Faker
+selenium-wire
+pytest-html
