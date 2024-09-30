@@ -16,7 +16,6 @@ UI and API testing in [expandtesting](https://practice.expandtesting.com/notes/a
 | selenium-wire                   | 5.1.0          | -                                                               |
 | pytest-html                     | 4.1.1          | -                                                               |
           
-
 # Installation:
 
 - See [python page](https://www.python.org/downloads/) and download the latest Python stable version. Start the installation and check the checkboxes below: 
@@ -49,6 +48,10 @@ Check then both to add both options in context menu.
 - [Working with windows and tabs](https://www.selenium.dev/documentation/webdriver/interactions/windows/)
 - [Keeping browser open](https://www.selenium.dev/documentation/webdriver/browsers/chrome/#keeping-browser-open)
 - [Selenium: WebDriverException:Chrome failed to start: crashed as google-chrome is no longer running so ChromeDriver is assuming that Chrome has crashed](https://stackoverflow.com/a/53073789/10519428)
+- [Implicit waits](https://www.selenium.dev/documentation/webdriver/waits/#implicit-waits)
+- [Is Displayed](https://www.selenium.dev/documentation/webdriver/elements/information/#is-displayed)
+- [Python For Loops](https://www.w3schools.com/python/python_for_loops.asp)
+- [Python – Call function from another file](https://www.geeksforgeeks.org/python-call-function-from-another-file/)
 
 # Tips:
 

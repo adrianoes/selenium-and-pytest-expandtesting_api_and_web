@@ -5,7 +5,6 @@ options.add_experimental_option("detach", True)
 options.add_argument('--headless')
 from    selenium.webdriver.common.by  import  By
 
-@pytest.mark.health
 def test_health():
     driver = webdriver.Chrome(options=options)
     driver.maximize_window()
