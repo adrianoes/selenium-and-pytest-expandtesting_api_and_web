@@ -3,7 +3,7 @@ from    selenium  import  webdriver
 # from tests.test import create_user, login_user, delete_user
 options = webdriver.ChromeOptions()
 options.add_experimental_option("detach", True)
-# options.add_argument('--headless')
+options.add_argument('--headless')
 from    selenium.webdriver.common.by  import  By
 from    faker import Faker
 from selenium.webdriver.common.keys import Keys
