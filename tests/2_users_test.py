@@ -20,10 +20,13 @@ def test_create_user():
     driver.get("https://practice.expandtesting.com/notes/app/register")
     driver.find_element(By.CSS_SELECTOR, "#root > div > div > div").click()    
     assert driver.title == "Notes React Application for Automation Testing Practice"
-    driver.find_element(By.CSS_SELECTOR, "#name").send_keys(user_name)
+    for x in range(2):
+        driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
+    driver.implicitly_wait(2)
     driver.find_element(By.CSS_SELECTOR, "#email").send_keys(user_email)
     driver.find_element(By.CSS_SELECTOR, "#password").send_keys(user_password)
     driver.find_element(By.CSS_SELECTOR, "#confirmPassword").send_keys(user_password)
+    driver.find_element(By.CSS_SELECTOR, "#name").send_keys(user_name)
     for x in range(5):
         driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
     driver.find_element(By.CSS_SELECTOR, "div.form-group > button").click()
@@ -32,7 +35,6 @@ def test_create_user():
     assert user_created == True
     login_user(user_email, user_password)    
     delete_user()
-
 
 def test_login_user():
     user_name = Faker().name()
@@ -50,7 +52,6 @@ def test_login_user():
     assert user_logged == True
     delete_user()
 
-
 def test_delete_user():
     user_name = Faker().name()
     user_email = Faker().company_email()
@@ -66,23 +67,17 @@ def test_delete_user():
     user_deleted = driver.find_element(By.CSS_SELECTOR, "#root > div > div > div > div > div:nth-child(2) > div > div > div").is_displayed()
     assert user_deleted == True
 
-
-
-
-
-
-
-
-
-
 def create_user(user_name, user_email, user_password):
     driver.get("https://practice.expandtesting.com/notes/app/register")
     driver.find_element(By.CSS_SELECTOR, "#root > div > div > div").click()    
     assert driver.title == "Notes React Application for Automation Testing Practice"
-    driver.find_element(By.CSS_SELECTOR, "#name").send_keys(user_name)
+    for x in range(2):
+        driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
+    driver.implicitly_wait(2)
     driver.find_element(By.CSS_SELECTOR, "#email").send_keys(user_email)
     driver.find_element(By.CSS_SELECTOR, "#password").send_keys(user_password)
     driver.find_element(By.CSS_SELECTOR, "#confirmPassword").send_keys(user_password)
+    driver.find_element(By.CSS_SELECTOR, "#name").send_keys(user_name)
     for x in range(5):
         driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
     driver.find_element(By.CSS_SELECTOR, "div.form-group > button").click()
