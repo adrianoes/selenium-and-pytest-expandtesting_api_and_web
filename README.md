@@ -52,6 +52,7 @@ Check then both to add both options in context menu.
 - [Is Displayed](https://www.selenium.dev/documentation/webdriver/elements/information/#is-displayed)
 - [Python For Loops](https://www.w3schools.com/python/python_for_loops.asp)
 - [Python – Call function from another file](https://www.geeksforgeeks.org/python-call-function-from-another-file/)
+- [Setting Up and Tearing Down](https://www.selenium.dev/documentation/webdriver/getting_started/using_selenium/#setting-up-and-tearing-down)
 
 # Tips:
 

@@ -2,7 +2,7 @@ import  pytest
 from    selenium  import  webdriver
 options = webdriver.ChromeOptions()
 options.add_experimental_option("detach", True)
-options.add_argument('--headless')
+# options.add_argument('--headless')
 from    selenium.webdriver.common.by  import  By
 from    faker import Faker
 from selenium.webdriver.common.keys import Keys
@@ -23,7 +23,6 @@ def create_user(user_name, user_email, user_password):
     driver.implicitly_wait(2)
     user_created = driver.find_element(By.CSS_SELECTOR, "div.alert.alert-success > b").is_displayed()
     assert user_created == True
-    driver.quit()
 
 def login_user(user_email, user_password):
     driver = webdriver.Chrome(options=options)
@@ -37,7 +36,6 @@ def login_user(user_email, user_password):
     driver.implicitly_wait(2)
     user_logged = driver.find_element(By.CSS_SELECTOR, "#navbarSupportedContent > ul > li:nth-child(1) > a").is_displayed()
     assert user_logged == True
-    driver.quit()
 
 def delete_user():
     driver = webdriver.Chrome(options=options)
@@ -50,4 +48,3 @@ def delete_user():
     driver.implicitly_wait(5)
     user_deleted = driver.find_element(By.CSS_SELECTOR, "#root > div > div > div > div > div:nth-child(2) > div > div > div").is_displayed()
     assert user_deleted == True
-    driver.quit()
