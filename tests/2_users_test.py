@@ -1,8 +1,9 @@
 import time
+from Browser import Browser
 from selenium import webdriver
 options = webdriver.ChromeOptions()
 options.add_experimental_option("detach", True)
-options.add_argument('--headless')
+# options.add_argument('--headless')
 from faker import Faker
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -45,8 +46,20 @@ def test_login_user():
     driver.implicitly_wait(2)
     user_logged = driver.find_element(By.CSS_SELECTOR,"#navbarSupportedContent > ul > li:nth-child(1) > a").is_displayed()
     assert user_logged == True
+    user_token = driver.execute_script("return localStorage.getItem('token')")
     delete_user()
     time.sleep(5)
+
+# def test_check_user():
+#     user_name = Faker().name()
+#     user_email = Faker().company_email()
+#     user_password = Faker().password()
+#     create_user(user_name, user_email, user_password)
+#     login_user(user_email, user_password)
+#     driver.get("https://practice.expandtesting.com/notes/app/profile")
+    
+#     delete_user()
+#     time.sleep(5)
 
 def test_delete_user():
     user_name = Faker().name()
@@ -89,6 +102,7 @@ def login_user(user_email, user_password):
     driver.implicitly_wait(2)
     user_logged = driver.find_element(By.CSS_SELECTOR, "#navbarSupportedContent > ul > li:nth-child(1) > a").is_displayed()
     assert user_logged == True
+    user_token = driver.execute_script("return localStorage.getItem('token')")
 
 def delete_user():
     driver.get("https://practice.expandtesting.com/notes/app/profile")

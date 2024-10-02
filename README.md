@@ -13,7 +13,7 @@ UI and API testing in [expandtesting](https://practice.expandtesting.com/notes/a
 | Pytest                          | 8.3.3          | -                                                               |
 | Copy CSS Selector               | 1.3.4          | -                                                               |
 | Faker                           | 30.0.0         | -                                                               |
-| selenium-wire                   | 5.1.0          | -                                                               |
+| requests                        | 2.32.3         | -                                                               |
 | pytest-html                     | 4.1.1          | -                                                               |
           
 # Installation:
@@ -31,7 +31,7 @@ Check then both to add both options in context menu.
 - Open windows propmpt as admin and execute ```pip install pytest``` to install Pytest.
 - Open windows propmpt as admin and execute ```pip install Faker``` to install Faker library.
 - See [Copy CSS Selector page](https://chromewebstore.google.com/detail/copy-css-selector/bmgbagkoginmbbgjapcacehjdojdnnhf?hl=pt-BR&utm_source=ext_sidebar) and install it. 
-- Open windows propmpt as admin and execute ```pip install selenium-wire``` to install Faker library.
+- Open windows propmpt as admin and execute ```pip install requests``` to install Requests library.
 - Open windows propmpt as admin and execute ```pip install pytest-html``` to install pytest-html plugin.
 
 # Tests:
@@ -54,8 +54,11 @@ Check then both to add both options in context menu.
 - [Python – Call function from another file](https://www.geeksforgeeks.org/python-call-function-from-another-file/)
 - [Setting Up and Tearing Down](https://www.selenium.dev/documentation/webdriver/getting_started/using_selenium/#setting-up-and-tearing-down)
 - [Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it #1653](https://github.com/urllib3/urllib3/issues/1653#issuecomment-512794112)
+- [Requests: HTTP for Humans™](https://requests.readthedocs.io/en/latest/)
+- [How to get the localStorage with Python and Selenium WebDriver](https://stackoverflow.com/a/46361890/10519428)
 
 # Tips:
 
 - UI and API tests to send password reset link to user's email and API tests to verify a password reset token and reset a user's password must be tested manually as they rely on e-mail verification. 
-- To avoid conection problemns, a time.sleep(5) function was implemented between tests. 
+- To avoid conection problemns, a time.sleep(5) function was implemented between tests.
+- Slenium-wire is presenting issues in its current version. Further analysis can be done after a stable version.  
