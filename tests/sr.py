@@ -3,7 +3,7 @@ from selenium import webdriver
 import requests
 options = webdriver.ChromeOptions()
 options.add_experimental_option("detach", True)
-# options.add_argument('--headless')
+options.add_argument('--headless')
 # driver = webdriver.Chrome(options=options)
 # driver.maximize_window()
 
