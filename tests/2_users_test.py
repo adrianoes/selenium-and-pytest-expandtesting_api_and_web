@@ -3,7 +3,7 @@ from    selenium  import  webdriver
 # from tests.test import create_user, login_user, delete_user
 options = webdriver.ChromeOptions()
 options.add_experimental_option("detach", True)
-# options.add_argument('--headless')   
+options.add_argument('--headless')   
 from    selenium.webdriver.common.by  import  By
 from    faker import Faker
 from selenium.webdriver.common.keys import Keys
@@ -104,7 +104,6 @@ def test_delete_user():
     assert driver.title == "Notes React Application for Automation Testing Practice"
     driver.find_element(By.CSS_SELECTOR, "#email").send_keys(user_email)
     driver.find_element(By.CSS_SELECTOR, "#password").send_keys(user_password)
-    driver.implicitly_wait(5)
     driver.find_element(By.CSS_SELECTOR, "#confirmPassword").send_keys(user_password)
     driver.find_element(By.CSS_SELECTOR, "#name").send_keys(user_name)
     for x in range(5):
