@@ -1,5 +1,4 @@
 import time
-from Browser import Browser
 from selenium import webdriver
 options = webdriver.ChromeOptions()
 options.add_experimental_option("detach", True)
