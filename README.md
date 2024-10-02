@@ -53,7 +53,9 @@ Check then both to add both options in context menu.
 - [Python For Loops](https://www.w3schools.com/python/python_for_loops.asp)
 - [Python – Call function from another file](https://www.geeksforgeeks.org/python-call-function-from-another-file/)
 - [Setting Up and Tearing Down](https://www.selenium.dev/documentation/webdriver/getting_started/using_selenium/#setting-up-and-tearing-down)
+- [Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it #1653](https://github.com/urllib3/urllib3/issues/1653#issuecomment-512794112)
 
 # Tips:
 
-- UI and API tests to send password reset link to user's email and API tests to verify a password reset token and reset a user's password must be tested manually as they rely on e-mail verification.  
+- UI and API tests to send password reset link to user's email and API tests to verify a password reset token and reset a user's password must be tested manually as they rely on e-mail verification. 
+- To avoid conection problemns, a time.sleep(5) function was implemented between tests. 
