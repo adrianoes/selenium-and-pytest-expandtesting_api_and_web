@@ -1,6 +1,6 @@
-# selenium-expandtesting_UI
+# selenium-expandtesting_UI_and_API
 
-UI and API testing in [expandtesting](https://practice.expandtesting.com/notes/app/) note app. This project contains basic examples on how to use Selenium for UI tests writen in Python. Good practices such as hooks, custom commands and tags, among others, are used. All the necessary support documentation to develop this project is placed here. Although custom commands are used, the assertion code to each test is kept in it so we can work independently in each test. It creates one .json file for each test so we can share data between different commands in the test. The .json file is excluded after each test execution. 
+UI and API testing in [expandtesting](https://practice.expandtesting.com/notes/app/) note app. This project contains basic examples on how to use Selenium for UI tests writen in Python. Good practices such as hooks, custom commands and tags, among others, are used. All the necessary support documentation to develop this project is placed here. Although custom commands are used, the assertion code to each test is kept in it so we can work independently in each test. Requests library is used to deal with API tests. It creates one .json file for each test so we can share data between different commands in the test. The .json file is excluded after each test execution. 
 
 # Pre-requirements:
 
@@ -59,9 +59,15 @@ Check then both to add both options in context menu.
 - [Python Requests Library Complete Tutorial - Rest API Testing](https://www.youtube.com/watch?v=LP8NlUYHQGg)
 - [Python Accessing Nested JSON Data [duplicate]](https://stackoverflow.com/a/23306717/10519428)
 - [Session Objects](https://requests.readthedocs.io/en/latest/user/advanced/#session-objects)
+- [Headless is Going Away!](https://www.selenium.dev/blog/2023/headless-is-going-away/)
+- [Write JSON data to a file in Python](https://sentry.io/answers/write-json-data-to-a-file-in-python/)
+- [Read JSON file using Python](https://www.geeksforgeeks.org/read-json-file-using-python/)
+- [Python | os.remove() method](https://www.geeksforgeeks.org/python-os-remove-method/)
+- [ChatGPT](https://openai.com/chatgpt/)
 
 # Tips:
 
 - UI and API tests to send password reset link to user's email and API tests to verify a password reset token and reset a user's password must be tested manually as they rely on e-mail verification. 
 - To avoid conection problemns, a time.sleep(5) function was implemented between tests.
 - Selenium provides no means to intercept network messages. Requests library is used to validate HTTP requests.  
+- Trust ChatGPT.
