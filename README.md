@@ -56,9 +56,12 @@ Check then both to add both options in context menu.
 - [Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it #1653](https://github.com/urllib3/urllib3/issues/1653#issuecomment-512794112)
 - [Requests: HTTP for Humans™](https://requests.readthedocs.io/en/latest/)
 - [How to get the localStorage with Python and Selenium WebDriver](https://stackoverflow.com/a/46361890/10519428)
+- [Python Requests Library Complete Tutorial - Rest API Testing](https://www.youtube.com/watch?v=LP8NlUYHQGg)
+- [Python Accessing Nested JSON Data [duplicate]](https://stackoverflow.com/a/23306717/10519428)
+- [Session Objects](https://requests.readthedocs.io/en/latest/user/advanced/#session-objects)
 
 # Tips:
 
 - UI and API tests to send password reset link to user's email and API tests to verify a password reset token and reset a user's password must be tested manually as they rely on e-mail verification. 
 - To avoid conection problemns, a time.sleep(5) function was implemented between tests.
-- Slenium-wire is presenting issues in its current version. Further analysis can be done after a stable version.  
+- Selenium provides no means to intercept network messages. Requests library is used to validate HTTP requests.  
