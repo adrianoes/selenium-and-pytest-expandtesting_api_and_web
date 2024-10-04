@@ -65,6 +65,95 @@ def test_login_user_api():
     delete_json_file(randomData)
     time.sleep(5)
 
+def test_get_user_api():
+    randomData = Faker().hexify(text='^^^^^^^^^^^^')
+    create_user_api(randomData)
+    login_user_api(randomData)
+    with open(f"./tests/resources/file-{randomData}.json", 'r') as json_file:
+        data = json.load(json_file)
+    user_email = data['user_email']
+    user_id = data['user_id']     
+    user_name = data['user_name'] 
+    user_token = data['user_token'] 
+    headers = {'accept': 'application/json', 'x-auth-token': user_token}
+    resp = requests.get("https://practice.expandtesting.com/notes/api/users/profile", headers=headers)
+    respJS = resp.json()
+    assert True == respJS['success']
+    assert 200 == respJS['status']
+    assert "Profile successful" == respJS['message']
+    assert user_email == respJS['data']['email']
+    assert user_id == respJS['data']['id']
+    assert user_name == respJS['data']['name']
+    delete_user_api(randomData)
+    delete_json_file(randomData)
+    time.sleep(5)
+
+def test_update_user_api():
+    randomData = Faker().hexify(text='^^^^^^^^^^^^')
+    create_user_api(randomData)
+    login_user_api(randomData)
+    with open(f"./tests/resources/file-{randomData}.json", 'r') as json_file:
+        data = json.load(json_file)
+    user_company = Faker().company()
+    user_email = data['user_email']
+    user_id = data['user_id']     
+    user_name = Faker().name()
+    user_phone = Faker().bothify(text='############')
+    user_token = data['user_token'] 
+    body = {'company': user_company, 'phone': user_phone, 'name': user_name}
+    headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': user_token}
+    resp = requests.patch("https://practice.expandtesting.com/notes/api/users/profile", headers=headers, data=body)
+    respJS = resp.json()
+    assert True == respJS['success']
+    assert 200 == respJS['status']
+    assert "Profile updated successful" == respJS['message']
+    assert user_company == respJS['data']['company']
+    assert user_email == respJS['data']['email']
+    assert user_id == respJS['data']['id']
+    assert user_name == respJS['data']['name']
+    assert user_phone == respJS['data']['phone']
+    delete_user_api(randomData)
+    delete_json_file(randomData)
+    time.sleep(5)
+
+def test_update_user_password_api():
+    randomData = Faker().hexify(text='^^^^^^^^^^^^')
+    create_user_api(randomData)
+    login_user_api(randomData)
+    with open(f"./tests/resources/file-{randomData}.json", 'r') as json_file:
+        data = json.load(json_file)
+    user_password = data['user_password']
+    user_new_password = Faker().password()
+    user_token = data['user_token'] 
+    body = {'currentPassword': user_password, 'newPassword': user_new_password}
+    headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': user_token}
+    resp = requests.post("https://practice.expandtesting.com/notes/api/users/change-password", headers=headers, data=body)
+    respJS = resp.json()
+    assert True == respJS['success']
+    assert 200 == respJS['status']
+    assert "The password was successfully updated" == respJS['message']
+    delete_user_api(randomData)
+    delete_json_file(randomData)
+    time.sleep(5)
+
+def test_logout_user_api():
+    randomData = Faker().hexify(text='^^^^^^^^^^^^')
+    create_user_api(randomData)
+    login_user_api(randomData)
+    with open(f"./tests/resources/file-{randomData}.json", 'r') as json_file:
+        data = json.load(json_file)
+    user_token = data['user_token']
+    headers = {'accept': 'application/json', 'x-auth-token': user_token}
+    resp = requests.delete("https://practice.expandtesting.com/notes/api/users/logout", headers=headers)
+    respJS = resp.json()
+    assert True == respJS['success']
+    assert 200 == respJS['status']
+    assert "User has been successfully logged out" == respJS['message']
+    login_user_api(randomData)
+    delete_user_api(randomData)
+    delete_json_file(randomData)
+    time.sleep(5)
+
 def test_delete_user_api():
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
