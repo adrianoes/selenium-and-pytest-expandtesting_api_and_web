@@ -223,7 +223,6 @@ def test_delete_note_api():
     delete_json_file(randomData)
     time.sleep(5)
 
-
 def create_user_api(randomData):
     user_email = Faker().company_email()
     user_name = Faker().name()

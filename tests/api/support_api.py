@@ -3,7 +3,6 @@ import os
 import requests
 from faker import Faker
 
-
 def create_user_api(randomData):
     user_email = Faker().company_email()
     user_name = Faker().name()
