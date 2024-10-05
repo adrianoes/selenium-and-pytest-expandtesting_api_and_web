@@ -1,11 +1,10 @@
 import json
+import os
 import requests
 from faker import Faker
-import time
-from support import create_user_api, delete_json_file, delete_user_api, login_user_api
 
-def test_create_user_api():
-    randomData = Faker().hexify(text='^^^^^^^^^^^^')
+
+def create_user_api(randomData):
     user_email = Faker().company_email()
     user_name = Faker().name()
     user_password = Faker().password()
@@ -27,14 +26,8 @@ def test_create_user_api():
     }
     with open(f"./tests/resources/file-{randomData}.json", 'w') as json_file:
         json.dump(combined_responses, json_file, indent=4)
-    login_user_api(randomData)
-    delete_user_api(randomData)
-    delete_json_file(randomData)
-    time.sleep(5)
 
-def test_login_user_api():
-    randomData = Faker().hexify(text='^^^^^^^^^^^^')
-    create_user_api(randomData)
+def login_user_api(randomData):
     with open(f"./tests/resources/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_email = data['user_email']
@@ -61,14 +54,8 @@ def test_login_user_api():
     }
     with open(f"./tests/resources/file-{randomData}.json", 'w') as json_file:
         json.dump(combined_responses, json_file, indent=4)
-    delete_user_api(randomData)
-    delete_json_file(randomData)
-    time.sleep(5)
-
-def test_delete_user_api():
-    randomData = Faker().hexify(text='^^^^^^^^^^^^')
-    create_user_api(randomData)
-    login_user_api(randomData)
+    
+def delete_user_api(randomData):
     with open(f"./tests/resources/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_token = data['user_token']
@@ -78,6 +65,55 @@ def test_delete_user_api():
     assert True == respJS['success']
     assert 200 == respJS['status']
     assert "Account successfully deleted" == respJS['message']
-    delete_json_file(randomData)
-    time.sleep(5)
 
+def delete_note_api(randomData):    
+    with open(f"./tests/resources/file-{randomData}.json", 'r') as json_file:
+        data = json.load(json_file)
+    note_id = data['note_id']
+    user_token = data['user_token']
+    headers = {'accept': 'application/json', 'x-auth-token': user_token}
+    resp = requests.delete(f"https://practice.expandtesting.com/notes/api/notes/{note_id}", headers=headers)
+    respJS = resp.json()
+    assert True == respJS['success']
+    assert 200 == respJS['status']
+    assert "Note successfully deleted" == respJS['message']
+
+def create_note_api(randomData):
+    with open(f"./tests/resources/file-{randomData}.json", 'r') as json_file:
+        data = json.load(json_file)
+    user_id = data['user_id']
+    user_token = data['user_token']
+    note_category = Faker().random_element(elements=('Home', 'Personal', 'Work'))
+    note_description = Faker().sentence(3)
+    note_title = Faker().sentence(2)
+    body = {'category': note_category, 'description': note_description, 'title': note_title}
+    headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': user_token}
+    resp = requests.post("https://practice.expandtesting.com/notes/api/notes", headers=headers, data=body)
+    respJS = resp.json()
+    assert True == respJS['success']
+    assert 200 == respJS['status']
+    assert "Note successfully created" == respJS['message']
+    assert note_category == respJS['data']['category']
+    assert note_description == respJS['data']['description']
+    assert note_title == respJS['data']['title']
+    assert user_id == respJS['data']['user_id']
+    note_id = respJS['data']['id']
+    note_created_at = respJS['data']['created_at']
+    note_completed = respJS['data']['completed']
+    note_updated_at = respJS['data']['updated_at']
+    combined_responses = {
+        'note_category': note_category,
+        'note_created_at': note_created_at,
+        'note_completed': note_completed,
+        'note_description': note_description,
+        'note_id': note_id,
+        'note_title': note_title,        
+        'note_updated_at': note_updated_at,
+        'user_id': user_id,
+        'user_token': user_token
+    }
+    with open(f"./tests/resources/file-{randomData}.json", 'w') as json_file:
+        json.dump(combined_responses, json_file, indent=4)
+
+def delete_json_file(randomData):
+    os.remove(f"./tests/resources/file-{randomData}.json")

@@ -27,12 +27,12 @@ and keep all the other preferenced options as they are.
   - :white_check_mark: Add "Open with code" action to Windows Explorer directory context menu.
 Check then both to add both options in context menu.
 - Look for Python in the extensions marketplace and install the one from Microsoft.
-- Open windows propmpt as admin and execute ```pip install selenium``` to install Selenium.
-- Open windows propmpt as admin and execute ```pip install pytest``` to install Pytest.
-- Open windows propmpt as admin and execute ```pip install Faker``` to install Faker library.
+- Open windows prompt as admin and execute ```pip install selenium``` to install Selenium.
+- Open windows prompt as admin and execute ```pip install pytest``` to install Pytest.
+- Open windows prompt as admin and execute ```pip install Faker``` to install Faker library.
 - See [Copy CSS Selector page](https://chromewebstore.google.com/detail/copy-css-selector/bmgbagkoginmbbgjapcacehjdojdnnhf?hl=pt-BR&utm_source=ext_sidebar) and install it. 
-- Open windows propmpt as admin and execute ```pip install requests``` to install Requests library.
-- Open windows propmpt as admin and execute ```pip install pytest-html``` to install pytest-html plugin.
+- Open windows prompt as admin and execute ```pip install requests``` to install Requests library.
+- Open windows prompt as admin and execute ```pip install pytest-html``` to install pytest-html plugin.
 
 # Tests:
 
@@ -63,6 +63,8 @@ Check then both to add both options in context menu.
 - [Write JSON data to a file in Python](https://sentry.io/answers/write-json-data-to-a-file-in-python/)
 - [Read JSON file using Python](https://www.geeksforgeeks.org/read-json-file-using-python/)
 - [Python | os.remove() method](https://www.geeksforgeeks.org/python-os-remove-method/)
+- [WebDriverWait on finding element by CSS Selector](https://stackoverflow.com/a/53527710/10519428)
+- [ImportError: No module named 'support'](https://stackoverflow.com/a/56268774/10519428)
 - [ChatGPT](https://openai.com/chatgpt/)
 
 # Tips:
