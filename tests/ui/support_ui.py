@@ -3,7 +3,7 @@ import os
 from selenium import webdriver
 options = webdriver.ChromeOptions()
 options.add_experimental_option("detach", True)
-# options.add_argument('--headless')
+options.add_argument('--headless')
 from faker import Faker
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
