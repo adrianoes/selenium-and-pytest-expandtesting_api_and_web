@@ -26,7 +26,7 @@ def test_create_user_api():
         'user_name': user_name,
         'user_password': user_password
     }
-    with open(f"./tests/resources/file-{randomData}.json", 'w') as json_file:
+    with open(f"./tests/fixtures/file-{randomData}.json", 'w') as json_file:
         json.dump(combined_responses, json_file, indent=4)
     login_user_api(randomData)
     delete_user_api(randomData)
@@ -36,7 +36,7 @@ def test_create_user_api():
 def test_login_user_api():
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
-    with open(f"./tests/resources/file-{randomData}.json", 'r') as json_file:
+    with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_email = data['user_email']
     user_id = data['user_id']    
@@ -60,7 +60,7 @@ def test_login_user_api():
         'user_password': user_password,
         'user_token': user_token
     }
-    with open(f"./tests/resources/file-{randomData}.json", 'w') as json_file:
+    with open(f"./tests/fixtures/file-{randomData}.json", 'w') as json_file:
         json.dump(combined_responses, json_file, indent=4)
     delete_user_api(randomData)
     delete_json_file(randomData)
@@ -70,7 +70,7 @@ def test_get_user_api():
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     login_user_api(randomData)
-    with open(f"./tests/resources/file-{randomData}.json", 'r') as json_file:
+    with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_email = data['user_email']
     user_id = data['user_id']     
@@ -93,7 +93,7 @@ def test_update_user_api():
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     login_user_api(randomData)
-    with open(f"./tests/resources/file-{randomData}.json", 'r') as json_file:
+    with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_company = Faker().company()
     user_email = data['user_email']
@@ -121,7 +121,7 @@ def test_update_user_password_api():
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     login_user_api(randomData)
-    with open(f"./tests/resources/file-{randomData}.json", 'r') as json_file:
+    with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_password = data['user_password']
     user_new_password = Faker().password()
@@ -141,7 +141,7 @@ def test_logout_user_api():
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     login_user_api(randomData)
-    with open(f"./tests/resources/file-{randomData}.json", 'r') as json_file:
+    with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_token = data['user_token']
     headers = {'accept': 'application/json', 'x-auth-token': user_token}
@@ -159,7 +159,7 @@ def test_delete_user_api():
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     login_user_api(randomData)
-    with open(f"./tests/resources/file-{randomData}.json", 'r') as json_file:
+    with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_token = data['user_token']
     headers = {'accept': 'application/json', 'x-auth-token': user_token}
@@ -191,11 +191,11 @@ def create_user_api(randomData):
         'user_name': user_name,
         'user_password': user_password
     }
-    with open(f"./tests/resources/file-{randomData}.json", 'w') as json_file:
+    with open(f"./tests/fixtures/file-{randomData}.json", 'w') as json_file:
         json.dump(combined_responses, json_file, indent=4)
 
 def login_user_api(randomData):
-    with open(f"./tests/resources/file-{randomData}.json", 'r') as json_file:
+    with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_email = data['user_email']
     user_id = data['user_id']    
@@ -219,11 +219,11 @@ def login_user_api(randomData):
         'user_password': user_password,
         'user_token': user_token
     }
-    with open(f"./tests/resources/file-{randomData}.json", 'w') as json_file:
+    with open(f"./tests/fixtures/file-{randomData}.json", 'w') as json_file:
         json.dump(combined_responses, json_file, indent=4)
     
 def delete_user_api(randomData):
-    with open(f"./tests/resources/file-{randomData}.json", 'r') as json_file:
+    with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_token = data['user_token']
     headers = {'accept': 'application/json', 'x-auth-token': user_token}
@@ -234,7 +234,7 @@ def delete_user_api(randomData):
     assert "Account successfully deleted" == respJS['message']
 
 def delete_note_api(randomData):    
-    with open(f"./tests/resources/file-{randomData}.json", 'r') as json_file:
+    with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     note_id = data['note_id']
     user_token = data['user_token']
@@ -246,6 +246,6 @@ def delete_note_api(randomData):
     assert "Note successfully deleted" == respJS['message']
 
 def delete_json_file(randomData):
-    os.remove(f"./tests/resources/file-{randomData}.json")
+    os.remove(f"./tests/fixtures/file-{randomData}.json")
 
 

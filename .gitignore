@@ -4,3 +4,4 @@ tests/api/__pycache__/
 tests/ui/__pycache__/
 tests/ui_and_api/__pycache__/
 commiting.txt
+tests/fixtures/.gitkeep
