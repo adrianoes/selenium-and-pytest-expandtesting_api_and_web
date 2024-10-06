@@ -11,7 +11,7 @@ UI and API testing in [expandtesting](https://practice.expandtesting.com/notes/a
 | Python extension                | 2024.14.1      | -                                                               | 
 | Selenium                        | 4.25.0         | -                                                               |
 | Pytest                          | 8.3.3          | -                                                               |
-| Copy CSS Selector               | 1.3.4          | -                                                               |
+| SelectorsHub                    | 5.3.4          | -                                                               |
 | Faker                           | 30.0.0         | -                                                               |
 | requests                        | 2.32.3         | -                                                               |
 | pytest-html                     | 4.1.1          | -                                                               |
@@ -30,7 +30,7 @@ Check then both to add both options in context menu.
 - Open windows prompt as admin and execute ```pip install selenium``` to install Selenium.
 - Open windows prompt as admin and execute ```pip install pytest``` to install Pytest.
 - Open windows prompt as admin and execute ```pip install Faker``` to install Faker library.
-- See [Copy CSS Selector page](https://chromewebstore.google.com/detail/copy-css-selector/bmgbagkoginmbbgjapcacehjdojdnnhf?hl=pt-BR&utm_source=ext_sidebar) and install it. 
+- See [SelectorsHub page](https://chromewebstore.google.com/detail/selectorshub-xpath-helper/ndgimibanhlabgdgjcpbbndiehljcpfh?hl=pt-BR&utm_source=ext_sidebar) and install it. 
 - Open windows prompt as admin and execute ```pip install requests``` to install Requests library.
 - Open windows prompt as admin and execute ```pip install pytest-html``` to install pytest-html plugin.
 
@@ -71,5 +71,8 @@ Check then both to add both options in context menu.
 
 - UI and API tests to send password reset link to user's email and API tests to verify a password reset token and reset a user's password must be tested manually as they rely on e-mail verification. 
 - To avoid conection problemns, a time.sleep(5) function was implemented between tests.
-- Selenium provides no means to intercept network messages. Requests library is used to validate HTTP requests.  
+- Selenium provides no means to intercept network messages. Requests library is used to validate HTTP requests. 
+- It was observed that Slenium performance is better when functions are called from the same test file than test script.
+- Features to scroll to element were presenting fail behavior alongside with complications to find the element due to iframes in the screen. Arrow down workaround was used to solve this problem. This solution fits the 1980x1080 resolution. 
+- Always double check the best selector with the help of SelectorsHub google extension. 
 - Trust ChatGPT.

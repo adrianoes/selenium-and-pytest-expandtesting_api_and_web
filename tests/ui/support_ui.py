@@ -1,5 +1,6 @@
 import json
 import os
+import requests
 from selenium import webdriver
 options = webdriver.ChromeOptions()
 options.add_experimental_option("detach", True)
@@ -58,8 +59,13 @@ def login_user_ui(randomData):
     user_logged = driver.find_element(By.CSS_SELECTOR,"#navbarSupportedContent > ul > li:nth-child(1) > a").is_displayed()
     assert user_logged == True
     user_token = driver.execute_script("return localStorage.getItem('token')")
+    headers = {'accept': 'application/json', 'x-auth-token': user_token}
+    resp = requests.get("https://practice.expandtesting.com/notes/api/users/profile", headers=headers)
+    respJS = resp.json()
+    user_id = respJS['data']['id']
     combined_responses = {
         'user_email': user_email,
+        'user_id': user_id,
         'user_name': user_name,
         'user_password': user_password,
         'user_token': user_token
