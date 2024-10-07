@@ -65,6 +65,7 @@ Check then both to add both options in context menu.
 - [Python | os.remove() method](https://www.geeksforgeeks.org/python-os-remove-method/)
 - [WebDriverWait on finding element by CSS Selector](https://stackoverflow.com/a/53527710/10519428)
 - [ImportError: No module named 'support'](https://stackoverflow.com/a/56268774/10519428)
+- [Python String strip() Method](https://www.w3schools.com/python/ref_string_strip.asp)
 - [ChatGPT](https://openai.com/chatgpt/)
 
 # Tips:
