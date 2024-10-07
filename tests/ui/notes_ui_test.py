@@ -9,6 +9,7 @@ options.add_argument('--headless')
 from faker import Faker
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 # from .support_ui import create_user_ui, delete_json_file, delete_user_ui, login_user_ui
@@ -23,7 +24,7 @@ def test_create_note_ui():
     # 1 = Home, 2 = Work , 3 = Personal
     note_category = Faker().random_element(elements=(1, 2, 3))
     # 1 = Checked, 2 = Unchecked
-    note_completed = Faker().random_element(elements=(2,3))
+    note_completed = Faker().random_element(elements=(1,2))
     note_description = Faker().sentence(3)
     note_title = Faker().sentence(2)
     driver.get("https://practice.expandtesting.com/notes/app/")
@@ -73,6 +74,48 @@ def test_create_note_ui():
     }
     with open(f"./tests/fixtures/file-{randomData}.json", 'w') as json_file:
         json.dump(combined_responses, json_file, indent=4)
+    delete_user_ui()
+    delete_json_file(randomData)
+    time.sleep(5)
+
+def test_check_notes_ui():
+    randomData = Faker().hexify(text='^^^^^^^^^^^^')
+    create_user_ui(randomData)
+    login_user_ui(randomData)
+    note_category_array = [Faker().random_element(elements=("Home", "Work", "Personal")), "Home", "Work", "Personal"]
+    note_completed_array = [1, 2, 2, 2]
+    note_description_array = [Faker().sentence(3), Faker().sentence(3), Faker().sentence(3), Faker().sentence(3)]
+    note_title_array = [Faker().sentence(2), Faker().sentence(2), Faker().sentence(2), Faker().sentence(2)]
+    driver.get("https://practice.expandtesting.com/notes/app/")
+    for x in range(5):
+        driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
+    for x in range(4):
+        driver.find_element(By.XPATH,"//button[normalize-space()='+ Add Note']").click() 
+        select_element = driver.find_element(By.CSS_SELECTOR,"#category")
+        select = Select(select_element)
+        select.select_by_value(note_category_array[x])
+        if x == 1:
+            driver.find_element(By.CSS_SELECTOR,f"#completed").click()
+        driver.find_element(By.CSS_SELECTOR,"#title").send_keys(note_title_array[x])
+        driver.find_element(By.CSS_SELECTOR,"#description").send_keys(note_description_array[x])
+        driver.find_element(By.CSS_SELECTOR,"button[data-testid='note-submit']").click()
+        # selectors are large and appears to follow not so similar logic. 
+    for x in range(15):
+        driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
+    for x in range(4):
+        note_title_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, f"//div[normalize-space()='{note_title_array[x]}']")))
+        note_description_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, f"//p[normalize-space()='{note_description_array[x]}']")))
+        assert note_description_element.text.strip() == note_description_array[x]
+        assert note_title_element.text.strip() == note_title_array[x]
+        # note_style = note_title_element.get_attribute("style")
+        # if note_completed_array[5-x] == 1:
+        #     assert note_style == "background-color: rgba(40, 46, 41, 0.6); color: rgb(255, 255, 255);"
+        # elif note_category_array[5-x] == 1:
+        #     assert note_style == "background-color: rgb(255, 145, 0); color: rgb(255, 255, 255);"
+        # elif note_category_array[5-x] == 2:
+        #     assert note_style == "background-color: rgb(92, 107, 192); color: rgb(255, 255, 255);"
+        # else:
+        #     assert note_style == "background-color: rgb(50, 140, 160); color: rgb(255, 255, 255);"
     delete_user_ui()
     delete_json_file(randomData)
     time.sleep(5)
