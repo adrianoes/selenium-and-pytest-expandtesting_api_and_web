@@ -66,6 +66,7 @@ Check then both to add both options in context menu.
 - [WebDriverWait on finding element by CSS Selector](https://stackoverflow.com/a/53527710/10519428)
 - [ImportError: No module named 'support'](https://stackoverflow.com/a/56268774/10519428)
 - [Python String strip() Method](https://www.w3schools.com/python/ref_string_strip.asp)
+- [StaleElementReferenceException on Python Selenium](https://stackoverflow.com/a/44914767/10519428)
 - [ChatGPT](https://openai.com/chatgpt/)
 
 # Tips:

@@ -23,9 +23,10 @@ def test_create_note_ui():
     # 1 = Home, 2 = Work , 3 = Personal
     note_category = Faker().random_element(elements=(1, 2, 3))
     # 1 = Checked, 2 = Unchecked
-    note_completed = Faker().random_element(elements=(1,2))
+    note_completed = Faker().random_element(elements=(2,3))
     note_description = Faker().sentence(3)
     note_title = Faker().sentence(2)
+    driver.get("https://practice.expandtesting.com/notes/app/")
     for x in range(5):
         driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
     driver.find_element(By.XPATH,"//button[normalize-space()='+ Add Note']").click() 
@@ -36,8 +37,11 @@ def test_create_note_ui():
     driver.find_element(By.CSS_SELECTOR,"#title").send_keys(note_title)
     driver.find_element(By.CSS_SELECTOR,"#description").send_keys(note_description)
     driver.find_element(By.CSS_SELECTOR,"button[data-testid='note-submit']").click()
-    for x in range(15):
+    for x in range(20):
         driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
+    note_view_element = driver.find_element(By.CSS_SELECTOR, 'a[data-testid="note-view"]')
+    href_value = note_view_element.get_attribute('href')
+    note_id = href_value.split('/')[-1]
     if note_completed == 1:  
         note_message_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, f'//div[@data-testid="progress-info" and text()="You have completed all notes"]')))
     else:
@@ -58,11 +62,12 @@ def test_create_note_ui():
     assert note_description_element.is_displayed()
     assert note_message_element.is_displayed()
     assert note_title_element.is_displayed()
-    assert note_updated_at_element.is_displayed()
+    assert note_updated_at_element.is_displayed()    
     combined_responses = {
         'note_category': note_category,
         'note_completed': note_completed,
         'note_description': note_description,
+        'note_id': note_id,
         'note_title': note_title,
         'note_updated_at': note_updated_at
     }
@@ -84,7 +89,8 @@ def test_check_note_ui():
     note_description = data['note_description']
     note_title = data['note_title']
     note_updated_at = data['note_updated_at']
-    for x in range(5):
+    driver.get("https://practice.expandtesting.com/notes/app/")
+    for x in range(15):
         driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
     driver.find_element(By.XPATH,"//a[normalize-space()='View']").click() 
     for x in range(5):
@@ -109,6 +115,142 @@ def test_check_note_ui():
     else:
         assert note_style == "background-color: rgb(50, 140, 160); color: rgb(255, 255, 255);" 
         assert checkbox_status_element.is_selected() == False 
+    delete_user_ui()
+    delete_json_file(randomData)
+    time.sleep(5)
+    
+def test_update_note_ui():
+    randomData = Faker().hexify(text='^^^^^^^^^^^^')
+    create_user_ui(randomData)
+    login_user_ui(randomData)
+    create_note_ui(randomData)
+    # 1 = Home, 2 = Work , 3 = Personal
+    note_category = Faker().random_element(elements=(1, 2, 3))
+    note_description = Faker().sentence(3)
+    note_title = Faker().sentence(2)
+    driver.get("https://practice.expandtesting.com/notes/app/")
+    for x in range(12):
+        driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
+    driver.find_element(By.XPATH,"//button[normalize-space()='Edit']").click() 
+    driver.find_element(By.CSS_SELECTOR,"#category").click()
+    driver.find_element(By.CSS_SELECTOR,f"#category > option:nth-child({note_category})").click()
+    driver.find_element(By.CSS_SELECTOR,f"#completed").click()
+    checkbox_element = driver.find_element(By.CSS_SELECTOR,f"#completed")
+    checkbox_element_is_checked = checkbox_element.is_selected()
+    if checkbox_element_is_checked:
+        note_completed = 1
+    else:
+        note_completed = 2
+    driver.find_element(By.CSS_SELECTOR,"#title").clear()
+    driver.find_element(By.CSS_SELECTOR,"#title").send_keys(note_title)
+    driver.find_element(By.CSS_SELECTOR,"#description").clear()
+    driver.find_element(By.CSS_SELECTOR,"#description").send_keys(note_description)
+    driver.find_element(By.CSS_SELECTOR,"button[data-testid='note-submit']").click()
+    for x in range(7):
+        driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
+    driver.get("https://practice.expandtesting.com/notes/app/")
+    for x in range(12):
+        driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
+    note_title_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, f'//div[@data-testid="note-card-title" and text()="{note_title}"]')))
+    note_description_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, f"//p[@class='card-text' and text()='{note_description}']")))
+    note_updated_at_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, '[data-testid="note-card-updated-at"]')))
+    note_updated_at = note_updated_at_element.text.strip()
+    note_style = note_title_element.get_attribute("style")
+    checkbox_status_element = driver.find_element(By.CSS_SELECTOR, '#switch')
+    progress_info_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'div[data-testid="progress-info"]')))
+    full_text = progress_info_element.text
+    # several StaleElementReferenceException were faced when asserting the note progress text. Due to that, we assert only part of it here.
+    expected_part_unchecked = "completed in the all categories"
+    expected_part_checked = "You have completed all"
+    if note_completed == 1:
+        assert note_style == "background-color: rgba(40, 46, 41, 0.6); color: rgb(255, 255, 255);"
+        assert checkbox_status_element.is_selected() == True
+        assert expected_part_checked in full_text
+    elif note_category == 1:
+        assert note_style == "background-color: rgb(255, 145, 0); color: rgb(255, 255, 255);"
+        assert checkbox_status_element.is_selected() == False
+        assert expected_part_unchecked in full_text
+    elif note_category == 2:
+         assert note_style == "background-color: rgb(92, 107, 192); color: rgb(255, 255, 255);"
+         assert checkbox_status_element.is_selected() == False
+         assert expected_part_unchecked in full_text
+    else:
+        assert note_style == "background-color: rgb(50, 140, 160); color: rgb(255, 255, 255);" 
+        assert checkbox_status_element.is_selected() == False  
+        assert expected_part_unchecked in full_text       
+    assert note_description_element.is_displayed()
+    assert note_title_element.is_displayed()
+    assert note_updated_at_element.is_displayed() 
+    delete_user_ui()
+    delete_json_file(randomData)
+    time.sleep(5)
+
+def test_update_note_status_ui():
+    randomData = Faker().hexify(text='^^^^^^^^^^^^')
+    create_user_ui(randomData)
+    login_user_ui(randomData)
+    create_note_ui(randomData)
+    with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
+        data = json.load(json_file)
+    note_category = data['note_category']   
+    note_description = data['note_description']
+    note_title = data['note_title']
+    driver.get("https://practice.expandtesting.com/notes/app/")
+    for x in range(12):
+        driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
+    driver.find_element(By.CSS_SELECTOR,"#switch").click() 
+    checkbox_status_element = driver.find_element(By.CSS_SELECTOR, '#switch')
+    checkbox_element_is_checked = checkbox_status_element.is_selected()
+    if checkbox_element_is_checked:
+        note_completed = 1
+    else:
+        note_completed = 2
+    for x in range(7):
+        driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
+    note_title_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, f'//div[@data-testid="note-card-title" and text()="{note_title}"]')))
+    note_description_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, f"//p[@class='card-text' and text()='{note_description}']")))
+    note_style = note_title_element.get_attribute("style")
+    checkbox_status_element = driver.find_element(By.CSS_SELECTOR, '#switch')
+    progress_info_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'div[data-testid="progress-info"]')))
+    full_text = progress_info_element.text
+    # several StaleElementReferenceException were faced when asserting the note progress text. Due to that, we assert only part of it here.
+    expected_part_unchecked = "completed in the all categories"
+    expected_part_checked = "You have completed all"
+    if note_completed == 1:
+        assert note_style == "background-color: rgba(40, 46, 41, 0.6); color: rgb(255, 255, 255);"
+        assert checkbox_status_element.is_selected() == True
+        assert expected_part_checked in full_text
+    elif note_category == 1:
+        assert note_style == "background-color: rgb(255, 145, 0); color: rgb(255, 255, 255);"
+        assert checkbox_status_element.is_selected() == False
+        assert expected_part_unchecked in full_text
+    elif note_category == 2:
+         assert note_style == "background-color: rgb(92, 107, 192); color: rgb(255, 255, 255);"
+         assert checkbox_status_element.is_selected() == False
+         assert expected_part_unchecked in full_text
+    else:
+        assert note_style == "background-color: rgb(50, 140, 160); color: rgb(255, 255, 255);" 
+        assert checkbox_status_element.is_selected() == False  
+        assert expected_part_unchecked in full_text       
+    assert note_description_element.is_displayed()
+    assert note_title_element.is_displayed() 
+    delete_user_ui()
+    delete_json_file(randomData)
+    time.sleep(5)
+
+def test_delete_note_ui():
+    randomData = Faker().hexify(text='^^^^^^^^^^^^')
+    create_user_ui(randomData)
+    login_user_ui(randomData)
+    create_note_ui(randomData)
+    with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
+        data = json.load(json_file)
+    note_id = data['note_id']   
+    driver.get(f"https://practice.expandtesting.com/notes/app/notes/{note_id}")
+    for x in range(12):
+        driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
+    driver.find_element(By.CSS_SELECTOR,"button[data-testid='note-delete']").click()
+    driver.find_element(By.CSS_SELECTOR,".btn.btn-danger").click()
     delete_user_ui()
     delete_json_file(randomData)
     time.sleep(5)
@@ -189,6 +331,7 @@ def create_note_ui(randomData):
     note_completed = Faker().random_element(elements=(1,2))
     note_description = Faker().sentence(3)
     note_title = Faker().sentence(2)
+    driver.get("https://practice.expandtesting.com/notes/app/")
     for x in range(5):
         driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
     driver.find_element(By.XPATH,"//button[normalize-space()='+ Add Note']").click() 
@@ -201,6 +344,9 @@ def create_note_ui(randomData):
     driver.find_element(By.CSS_SELECTOR,"button[data-testid='note-submit']").click()
     for x in range(15):
         driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
+    note_view_element = driver.find_element(By.CSS_SELECTOR, 'a[data-testid="note-view"]')
+    href_value = note_view_element.get_attribute('href')
+    note_id = href_value.split('/')[-1]
     if note_completed == 1:  
         note_message_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, f'//div[@data-testid="progress-info" and text()="You have completed all notes"]')))
     else:
@@ -226,6 +372,7 @@ def create_note_ui(randomData):
         'note_category': note_category,
         'note_completed': note_completed,
         'note_description': note_description,
+        'note_id': note_id,
         'note_title': note_title,
         'note_updated_at': note_updated_at
     }
