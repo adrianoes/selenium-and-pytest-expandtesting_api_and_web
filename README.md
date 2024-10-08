@@ -42,6 +42,7 @@ Check then both to add both options in context menu.
 
 - [expandtesting API documentation page](https://practice.expandtesting.com/notes/api/api-docs/)
 - [expandtesting API demonstration page](https://www.youtube.com/watch?v=bQYvS6EEBZc)
+- [Pytest](https://docs.pytest.org/en/stable/)
 - [How to obtain a CSS Selector](https://help.probely.com/en/articles/8480719-how-to-obtain-a-css-selector)
 - [Using faker with selenium and python](https://stackoverflow.com/a/27650137/10519428)
 - [Faker 30.0.0 documentation](https://faker.readthedocs.io/en/stable/)

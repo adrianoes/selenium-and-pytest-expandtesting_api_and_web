@@ -50,6 +50,50 @@ def test_create_note_api():
     delete_json_file(randomData)
     time.sleep(5)
 
+def test_create_note_api_bad_request():
+    randomData = Faker().hexify(text='^^^^^^^^^^^^')
+    create_user_api(randomData)
+    login_user_api(randomData)
+    with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
+        data = json.load(json_file)
+    user_id = data['user_id']
+    user_token = data['user_token']
+    note_category = Faker().random_element(elements=('Home', 'Personal', 'Work'))
+    note_description = Faker().sentence(3)
+    note_title = Faker().sentence(2)
+    body = {'category': 'a', 'description': note_description, 'title': note_title}
+    headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': user_token}
+    resp = requests.post("https://practice.expandtesting.com/notes/api/notes", headers=headers, data=body)
+    respJS = resp.json()
+    assert False == respJS['success']
+    assert 400 == respJS['status']
+    assert "Category must be one of the categories: Home, Work, Personal" == respJS['message']
+    delete_user_api(randomData)
+    delete_json_file(randomData)
+    time.sleep(5)
+
+def test_create_note_api_unauthorized():
+    randomData = Faker().hexify(text='^^^^^^^^^^^^')
+    create_user_api(randomData)
+    login_user_api(randomData)
+    with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
+        data = json.load(json_file)
+    user_id = data['user_id']
+    user_token = data['user_token']
+    note_category = Faker().random_element(elements=('Home', 'Personal', 'Work'))
+    note_description = Faker().sentence(3)
+    note_title = Faker().sentence(2)
+    body = {'category': note_category, 'description': note_description, 'title': note_title}
+    headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': '@'+user_token}
+    resp = requests.post("https://practice.expandtesting.com/notes/api/notes", headers=headers, data=body)
+    respJS = resp.json()
+    assert False == respJS['success']
+    assert 401 == respJS['status']
+    assert "Access token is not valid or has expired, you will need to login" == respJS['message']
+    delete_user_api(randomData)
+    delete_json_file(randomData)
+    time.sleep(5)
+
 def test_get_notes_api():
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
@@ -104,6 +148,51 @@ def test_get_notes_api():
     delete_json_file(randomData)
     time.sleep(5)
 
+def test_get_notes_api_unauthorized():
+    randomData = Faker().hexify(text='^^^^^^^^^^^^')
+    create_user_api(randomData)
+    login_user_api(randomData)
+    with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
+        data = json.load(json_file)
+    user_id = data['user_id']
+    user_token = data['user_token']
+    note_category_array = [Faker().random_element(elements=('Home', 'Personal', 'Work')), 'Home', 'Personal', 'Work']
+    note_created_at_array = ["a", "b", "c", "d"]
+    note_completed_array = [False, False, False, True]
+    note_id_array = ["a", "b", "c", "d"]
+    note_updated_at_array = ["a", "b", "c", "d"]
+    note_description_array = [Faker().sentence(3), Faker().sentence(3), Faker().sentence(3), Faker().sentence(3)]
+    note_title_array = [Faker().sentence(2), Faker().sentence(2), Faker().sentence(2), Faker().sentence(2)]
+    # creates 4 notes, set the last as "complete" and asserts the 4 objects in the response.
+    for x in range(4):
+        body = {'category': note_category_array[x], 'description': note_description_array[x], 'title': note_title_array[x]}
+        headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': user_token}
+        resp = requests.post("https://practice.expandtesting.com/notes/api/notes", headers=headers, data=body)
+        respJS = resp.json()
+        assert True == respJS['success']
+        assert 200 == respJS['status']
+        assert "Note successfully created" == respJS['message']
+        assert note_category_array[x] == respJS['data']['category']
+        assert note_description_array[x] == respJS['data']['description']
+        assert note_title_array[x] == respJS['data']['title']        
+        note_id_array[x] = respJS['data']['id']
+        note_created_at_array[x] = respJS['data']['created_at']
+        note_updated_at_array[x] = respJS['data']['updated_at']
+    headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': user_token}
+    body = {'completed': "true"}
+    resp = requests.patch(f"https://practice.expandtesting.com/notes/api/notes/{note_id_array[3]}", headers=headers, data=body)
+    respJS = resp.json()
+    note_updated_at_array[3] = respJS['data']['updated_at']    
+    headers = {'accept': 'application/json', 'x-auth-token': '@'+user_token}
+    resp = requests.get(f"https://practice.expandtesting.com/notes/api/notes", headers=headers)
+    respJS = resp.json()
+    assert False == respJS['success']
+    assert 401 == respJS['status']
+    assert "Access token is not valid or has expired, you will need to login" == respJS['message']      
+    delete_user_api(randomData)
+    delete_json_file(randomData)
+    time.sleep(5)
+
 def test_get_note_api():
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
@@ -134,6 +223,32 @@ def test_get_note_api():
     assert note_title == respJS['data']['title']
     assert note_updated_at == respJS['data']['updated_at']
     assert user_id == respJS['data']['user_id']
+    delete_user_api(randomData)
+    delete_json_file(randomData)
+    time.sleep(5)
+
+def test_get_note_api_unauthorized():
+    randomData = Faker().hexify(text='^^^^^^^^^^^^')
+    create_user_api(randomData)
+    login_user_api(randomData)
+    create_note_api(randomData)
+    with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
+        data = json.load(json_file)
+    note_category = data['note_category']
+    note_created_at = data['note_created_at']
+    note_completed = data['note_completed']
+    note_description = data['note_description']
+    note_id = data['note_id']
+    note_title = data['note_title']
+    note_updated_at = data['note_updated_at']
+    user_id = data['user_id']
+    user_token = data['user_token']
+    headers = {'accept': 'application/json', 'x-auth-token': '@'+user_token}
+    resp = requests.get(f"https://practice.expandtesting.com/notes/api/notes/{note_id}", headers=headers)
+    respJS = resp.json()
+    assert False == respJS['success']
+    assert 401 == respJS['status']
+    assert "Access token is not valid or has expired, you will need to login" == respJS['message'] 
     delete_user_api(randomData)
     delete_json_file(randomData)
     time.sleep(5)
@@ -171,6 +286,58 @@ def test_update_note_api():
     delete_json_file(randomData)
     time.sleep(5)
 
+def test_update_note_api_bad_request():
+    randomData = Faker().hexify(text='^^^^^^^^^^^^')
+    create_user_api(randomData)
+    login_user_api(randomData)
+    create_note_api(randomData)
+    with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
+        data = json.load(json_file)
+    note_category = Faker().random_element(elements=('Home', 'Personal', 'Work'))
+    note_created_at = data['note_created_at']
+    note_completed = True
+    note_description = Faker().sentence(3)
+    note_id = data['note_id']
+    note_title = Faker().sentence(2)
+    user_id = data['user_id']
+    user_token = data['user_token']    
+    headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': user_token}
+    body = {'category': 'a', 'completed': "true", 'description': note_description, 'title': note_title}
+    resp = requests.put(f"https://practice.expandtesting.com/notes/api/notes/{note_id}", headers=headers, data=body)
+    respJS = resp.json()
+    assert False == respJS['success']
+    assert 400 == respJS['status']
+    assert "Category must be one of the categories: Home, Work, Personal" == respJS['message']
+    delete_user_api(randomData)
+    delete_json_file(randomData)
+    time.sleep(5)
+
+def test_update_note_api_unauthorized():
+    randomData = Faker().hexify(text='^^^^^^^^^^^^')
+    create_user_api(randomData)
+    login_user_api(randomData)
+    create_note_api(randomData)
+    with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
+        data = json.load(json_file)
+    note_category = Faker().random_element(elements=('Home', 'Personal', 'Work'))
+    note_created_at = data['note_created_at']
+    note_completed = True
+    note_description = Faker().sentence(3)
+    note_id = data['note_id']
+    note_title = Faker().sentence(2)
+    user_id = data['user_id']
+    user_token = data['user_token']    
+    headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': "@"+user_token}
+    body = {'category': note_category, 'completed': "true", 'description': note_description, 'title': note_title}
+    resp = requests.put(f"https://practice.expandtesting.com/notes/api/notes/{note_id}", headers=headers, data=body)
+    respJS = resp.json()
+    assert False == respJS['success']
+    assert 401 == respJS['status']
+    assert "Access token is not valid or has expired, you will need to login" == respJS['message'] 
+    delete_user_api(randomData)
+    delete_json_file(randomData)
+    time.sleep(5)
+
 def test_update_note_status_api():
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
@@ -204,6 +371,58 @@ def test_update_note_status_api():
     delete_json_file(randomData)
     time.sleep(5)
 
+def test_update_note_status_api_bad_request():
+    randomData = Faker().hexify(text='^^^^^^^^^^^^')
+    create_user_api(randomData)
+    login_user_api(randomData)
+    create_note_api(randomData)
+    with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
+        data = json.load(json_file)
+    note_category = data['note_category']
+    note_created_at = data['note_created_at']
+    note_description = data['note_description']
+    note_completed = True
+    note_id = data['note_id']
+    note_title = data['note_title']
+    user_id = data['user_id']
+    user_token = data['user_token']    
+    headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': user_token}
+    body = {'completed': "a"}
+    resp = requests.patch(f"https://practice.expandtesting.com/notes/api/notes/{note_id}", headers=headers, data=body)
+    respJS = resp.json()
+    assert False == respJS['success']
+    assert 400 == respJS['status']
+    assert "Note completed status must be boolean" == respJS['message']
+    delete_user_api(randomData)
+    delete_json_file(randomData)
+    time.sleep(5)
+
+def test_update_note_status_api_unauthorized():
+    randomData = Faker().hexify(text='^^^^^^^^^^^^')
+    create_user_api(randomData)
+    login_user_api(randomData)
+    create_note_api(randomData)
+    with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
+        data = json.load(json_file)
+    note_category = data['note_category']
+    note_created_at = data['note_created_at']
+    note_description = data['note_description']
+    note_completed = True
+    note_id = data['note_id']
+    note_title = data['note_title']
+    user_id = data['user_id']
+    user_token = data['user_token']    
+    headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': "@"+user_token}
+    body = {'completed': note_completed}
+    resp = requests.patch(f"https://practice.expandtesting.com/notes/api/notes/{note_id}", headers=headers, data=body)
+    respJS = resp.json()
+    assert False == respJS['success']
+    assert 401 == respJS['status']
+    assert "Access token is not valid or has expired, you will need to login" == respJS['message'] 
+    delete_user_api(randomData)
+    delete_json_file(randomData)
+    time.sleep(5)
+
 def test_delete_note_api():
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
@@ -219,6 +438,44 @@ def test_delete_note_api():
     assert True == respJS['success']
     assert 200 == respJS['status']
     assert "Note successfully deleted" == respJS['message']
+    delete_user_api(randomData)
+    delete_json_file(randomData)
+    time.sleep(5)
+
+def test_delete_note_api_bad_request():
+    randomData = Faker().hexify(text='^^^^^^^^^^^^')
+    create_user_api(randomData)
+    login_user_api(randomData)
+    create_note_api(randomData)
+    with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
+        data = json.load(json_file)
+    note_id = data['note_id']
+    user_token = data['user_token']
+    headers = {'accept': 'application/json', 'x-auth-token': user_token}
+    resp = requests.delete(f"https://practice.expandtesting.com/notes/api/notes/'@'+{note_id}", headers=headers)
+    respJS = resp.json()
+    assert False == respJS['success']
+    assert 400 == respJS['status']
+    assert "Note ID must be a valid ID" == respJS['message']
+    delete_user_api(randomData)
+    delete_json_file(randomData)
+    time.sleep(5)
+
+def test_delete_note_api_unauthorized():
+    randomData = Faker().hexify(text='^^^^^^^^^^^^')
+    create_user_api(randomData)
+    login_user_api(randomData)
+    create_note_api(randomData)
+    with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
+        data = json.load(json_file)
+    note_id = data['note_id']
+    user_token = data['user_token']
+    headers = {'accept': 'application/json', 'x-auth-token': '@'+user_token}
+    resp = requests.delete(f"https://practice.expandtesting.com/notes/api/notes/{note_id}", headers=headers)
+    respJS = resp.json()
+    assert False == respJS['success']
+    assert 401 == respJS['status']
+    assert "Access token is not valid or has expired, you will need to login" == respJS['message']
     delete_user_api(randomData)
     delete_json_file(randomData)
     time.sleep(5)
