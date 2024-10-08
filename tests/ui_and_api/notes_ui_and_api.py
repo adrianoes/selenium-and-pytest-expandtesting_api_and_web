@@ -82,6 +82,60 @@ def test_create_note_ui_and_api():
     delete_json_file(randomData)
     time.sleep(5)
 
+def test_create_note_ui_and_api_invalid_title():
+    randomData = Faker().hexify(text='^^^^^^^^^^^^')
+    create_user_api(randomData)
+    login_user_ui(randomData)
+    # 1 = Home, 2 = Work , 3 = Personal
+    note_category = Faker().random_element(elements=(1, 2, 3))
+    # 1 = Checked, 2 = Unchecked
+    note_completed = Faker().random_element(elements=(1,2))
+    note_description = Faker().sentence(3)
+    note_title = "e"
+    driver.get("https://practice.expandtesting.com/notes/app/")
+    for x in range(5):
+        driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
+    driver.find_element(By.XPATH,"//button[normalize-space()='+ Add Note']").click() 
+    driver.find_element(By.CSS_SELECTOR,"#category").click()
+    driver.find_element(By.CSS_SELECTOR,f"#category > option:nth-child({note_category})").click()
+    for x in range(note_completed):
+        driver.find_element(By.CSS_SELECTOR,f"#completed").click()
+    driver.find_element(By.CSS_SELECTOR,"#title").send_keys(note_title)
+    driver.find_element(By.CSS_SELECTOR,"#description").send_keys(note_description)
+    driver.find_element(By.CSS_SELECTOR,"button[data-testid='note-submit']").click()
+    invalid_title_message = driver.find_element(By.XPATH, "//div[normalize-space()='Title should be between 4 and 100 characters']")
+    assert invalid_title_message.is_displayed()
+    delete_user_api(randomData)
+    delete_json_file(randomData)
+    time.sleep(5)
+
+def test_create_note_ui_and_api_invalid_description():
+    randomData = Faker().hexify(text='^^^^^^^^^^^^')
+    create_user_api(randomData)
+    login_user_ui(randomData)
+    # 1 = Home, 2 = Work , 3 = Personal
+    note_category = Faker().random_element(elements=(1, 2, 3))
+    # 1 = Checked, 2 = Unchecked
+    note_completed = Faker().random_element(elements=(1,2))
+    note_description = 'e'
+    note_title = Faker().sentence(2)
+    driver.get("https://practice.expandtesting.com/notes/app/")
+    for x in range(5):
+        driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
+    driver.find_element(By.XPATH,"//button[normalize-space()='+ Add Note']").click() 
+    driver.find_element(By.CSS_SELECTOR,"#category").click()
+    driver.find_element(By.CSS_SELECTOR,f"#category > option:nth-child({note_category})").click()
+    for x in range(note_completed):
+        driver.find_element(By.CSS_SELECTOR,f"#completed").click()
+    driver.find_element(By.CSS_SELECTOR,"#title").send_keys(note_title)
+    driver.find_element(By.CSS_SELECTOR,"#description").send_keys(note_description)
+    driver.find_element(By.CSS_SELECTOR,"button[data-testid='note-submit']").click()
+    invalid_description_message = driver.find_element(By.XPATH, "//div[normalize-space()='Description should be between 4 and 1000 characters']")
+    assert invalid_description_message.is_displayed()
+    delete_user_api(randomData)
+    delete_json_file(randomData)
+    time.sleep(5)
+
 def test_check_notes_ui_and_api():
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
@@ -257,6 +311,60 @@ def test_update_note_ui_and_api():
     }
     with open(f"./tests/fixtures/file-{randomData}.json", 'w') as json_file:
         json.dump(combined_responses, json_file, indent=4)
+    delete_user_api(randomData)
+    delete_json_file(randomData)
+    time.sleep(5)
+
+def test_update_note_ui_and_api_invalid_title():
+    randomData = Faker().hexify(text='^^^^^^^^^^^^')
+    create_user_api(randomData)
+    login_user_ui(randomData)
+    create_note_ui(randomData)
+    # 1 = Home, 2 = Work , 3 = Personal
+    note_category = Faker().random_element(elements=(1, 2, 3))
+    note_description = Faker().sentence(3)
+    note_title = 'e'
+    driver.get("https://practice.expandtesting.com/notes/app/")
+    for x in range(12):
+        driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
+    driver.find_element(By.XPATH,"//button[normalize-space()='Edit']").click() 
+    driver.find_element(By.CSS_SELECTOR,"#category").click()
+    driver.find_element(By.CSS_SELECTOR,f"#category > option:nth-child({note_category})").click()
+    driver.find_element(By.CSS_SELECTOR,f"#completed").click()
+    driver.find_element(By.CSS_SELECTOR,"#title").clear()
+    driver.find_element(By.CSS_SELECTOR,"#title").send_keys(note_title)
+    driver.find_element(By.CSS_SELECTOR,"#description").clear()
+    driver.find_element(By.CSS_SELECTOR,"#description").send_keys(note_description)
+    driver.find_element(By.CSS_SELECTOR,"button[data-testid='note-submit']").click()
+    invalid_title_message = driver.find_element(By.XPATH, "//div[normalize-space()='Title should be between 4 and 100 characters']")
+    assert invalid_title_message.is_displayed() 
+    delete_user_api(randomData)
+    delete_json_file(randomData)
+    time.sleep(5)
+
+def test_update_note_ui_and_api_invalid_description():
+    randomData = Faker().hexify(text='^^^^^^^^^^^^')
+    create_user_api(randomData)
+    login_user_ui(randomData)
+    create_note_ui(randomData)
+    # 1 = Home, 2 = Work , 3 = Personal
+    note_category = Faker().random_element(elements=(1, 2, 3))
+    note_description = "e"
+    note_title = Faker().sentence(2)
+    driver.get("https://practice.expandtesting.com/notes/app/")
+    for x in range(12):
+        driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
+    driver.find_element(By.XPATH,"//button[normalize-space()='Edit']").click() 
+    driver.find_element(By.CSS_SELECTOR,"#category").click()
+    driver.find_element(By.CSS_SELECTOR,f"#category > option:nth-child({note_category})").click()
+    driver.find_element(By.CSS_SELECTOR,f"#completed").click()
+    driver.find_element(By.CSS_SELECTOR,"#title").clear()
+    driver.find_element(By.CSS_SELECTOR,"#title").send_keys(note_title)
+    driver.find_element(By.CSS_SELECTOR,"#description").clear()
+    driver.find_element(By.CSS_SELECTOR,"#description").send_keys(note_description)
+    driver.find_element(By.CSS_SELECTOR,"button[data-testid='note-submit']").click()
+    invalid_description_message = driver.find_element(By.XPATH, "//div[normalize-space()='Description should be between 4 and 1000 characters']")
+    assert invalid_description_message.is_displayed()
     delete_user_api(randomData)
     delete_json_file(randomData)
     time.sleep(5)

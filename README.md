@@ -36,7 +36,8 @@ Check then both to add both options in context menu.
 
 # Tests:
 
-- Execute ```pytest ./tests -v --html=./reports/report.html``` to run tests and generate a report inside reports folder.
+- Execute ```pytest ./tests -v --html=./reports/report.html``` to run tests in verbose mode and generate a report inside reports folder.
+- Execute ```pytest .\tests\ui\notes_ui_test.py -k note_ui_invalid -v --html=./reports/report.html``` to run tests that contains "note_ui_invalid" in its structure inside notes_ui_test.py file in verbose mode and generate a report inside reports folder.
 
 # Support:
 
