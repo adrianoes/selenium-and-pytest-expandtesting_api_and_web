@@ -86,6 +86,7 @@ def test_check_notes_ui():
     note_completed_array = [1, 2, 2, 2]
     note_description_array = [Faker().sentence(3), Faker().sentence(3), Faker().sentence(3), Faker().sentence(3)]
     note_title_array = [Faker().sentence(2), Faker().sentence(2), Faker().sentence(2), Faker().sentence(2)]
+    note_style_array = [1, 2, 3, 4]
     driver.get("https://practice.expandtesting.com/notes/app/")
     for x in range(5):
         driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
@@ -94,28 +95,34 @@ def test_check_notes_ui():
         select_element = driver.find_element(By.CSS_SELECTOR,"#category")
         select = Select(select_element)
         select.select_by_value(note_category_array[x])
-        if x == 1:
-            driver.find_element(By.CSS_SELECTOR,f"#completed").click()
         driver.find_element(By.CSS_SELECTOR,"#title").send_keys(note_title_array[x])
         driver.find_element(By.CSS_SELECTOR,"#description").send_keys(note_description_array[x])
         driver.find_element(By.CSS_SELECTOR,"button[data-testid='note-submit']").click()
-        # selectors are large and appears to follow not so similar logic. 
-    for x in range(15):
+    # python was too quick in some part of the codes. It was not giving time for the code to get values/attributes. Refresh the page was used as a workaround.
+    driver.get("https://practice.expandtesting.com/notes/app/")
+    for x in range(25):
         driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
+    driver.find_element(By.XPATH,"//div[5]//div[1]//div[4]//input[1]").click() 
+    driver.get("https://practice.expandtesting.com/notes/app/")
+    for x in range(15):
+        driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)   
     for x in range(4):
         note_title_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, f"//div[normalize-space()='{note_title_array[x]}']")))
         note_description_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, f"//p[normalize-space()='{note_description_array[x]}']")))
+        note_style_array[x] = note_title_element.get_attribute("style")
         assert note_description_element.text.strip() == note_description_array[x]
         assert note_title_element.text.strip() == note_title_array[x]
-        # note_style = note_title_element.get_attribute("style")
-        # if note_completed_array[5-x] == 1:
-        #     assert note_style == "background-color: rgba(40, 46, 41, 0.6); color: rgb(255, 255, 255);"
-        # elif note_category_array[5-x] == 1:
-        #     assert note_style == "background-color: rgb(255, 145, 0); color: rgb(255, 255, 255);"
-        # elif note_category_array[5-x] == 2:
-        #     assert note_style == "background-color: rgb(92, 107, 192); color: rgb(255, 255, 255);"
-        # else:
-        #     assert note_style == "background-color: rgb(50, 140, 160); color: rgb(255, 255, 255);"
+    print(note_title_array, note_description_array, note_style_array)
+    for x in range(4):
+        print(f"Checking note {x}: Title='{note_title_array[x]}', Expected Style='{note_style_array[x]}'")
+        if note_completed_array[x] == 1:
+            assert note_style_array[x] == "background-color: rgba(40, 46, 41, 0.6); color: rgb(255, 255, 255);"
+        elif note_category_array[x] == "Home":
+            assert note_style_array[x] == "background-color: rgb(255, 145, 0); color: rgb(255, 255, 255);"
+        elif note_category_array[x] == "Work":
+            assert note_style_array[x] == "background-color: rgb(92, 107, 192); color: rgb(255, 255, 255);"
+        else:  # Assuming Personal
+            assert note_style_array[x] == "background-color: rgb(50, 140, 160); color: rgb(255, 255, 255);"
     delete_user_ui()
     delete_json_file(randomData)
     time.sleep(5)
