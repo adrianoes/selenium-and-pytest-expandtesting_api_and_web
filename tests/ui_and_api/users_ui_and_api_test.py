@@ -21,6 +21,7 @@ def test_create_user_ui_and_api():
     user_email = Faker().company_email()
     user_name = Faker().name()
     user_password = Faker().password()
+    user_password = user_password.replace("&", "")
     driver.get("https://practice.expandtesting.com/notes/app/register")
     driver.find_element(By.CSS_SELECTOR, "#root > div > div > div").click()
     assert driver.title == "Notes React Application for Automation Testing Practice"
@@ -316,6 +317,7 @@ def create_user_ui(randomData):
     user_email = Faker().company_email()
     user_name = Faker().name()
     user_password = Faker().password()
+    user_password = user_password.replace("&", "")
     driver.get("https://practice.expandtesting.com/notes/app/register")
     driver.find_element(By.CSS_SELECTOR, "#root > div > div > div").click()
     assert driver.title == "Notes React Application for Automation Testing Practice"
@@ -382,6 +384,7 @@ def create_user_api(randomData):
     user_email = Faker().company_email()
     user_name = Faker().name()
     user_password = Faker().password()
+    user_password = user_password.replace("&", "")
     body = {'confirmPassword': user_password, 'email': user_email, 'name': user_name, 'password': user_password}
     headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded'}
     resp = requests.post("https://practice.expandtesting.com/notes/api/users/register", headers=headers, data=body)
