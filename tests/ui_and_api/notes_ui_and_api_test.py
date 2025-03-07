@@ -464,13 +464,15 @@ def login_user_ui(randomData):
     user_password = data['user_password']  
     user_name = data['user_name']
     driver.get("https://practice.expandtesting.com/notes/app/login")
-    for x in range(5):
+    for x in range(6):
         driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
     driver.find_element(By.CSS_SELECTOR, "#email").send_keys(user_email)
     driver.find_element(By.CSS_SELECTOR, "#password").send_keys(user_password)
     for x in range(8):
         driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
     driver.find_element(By.CSS_SELECTOR, "div.form-group > button").click()
+    for x in range(8):
+        driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
     user_logged = driver.find_element(By.CSS_SELECTOR,"#navbarSupportedContent > ul > li:nth-child(1) > a").is_displayed()
     assert user_logged == True
     user_token = driver.execute_script("return localStorage.getItem('token')")
