@@ -15,6 +15,7 @@ UI and API testing in [expandtesting](https://practice.expandtesting.com/notes/a
 | Faker                           | 30.0.0         | -                                                               |
 | requests                        | 2.32.3         | -                                                               |
 | undetected-chromedriver         | 3.5.5          | -                                                               |
+| webdriver-manager               | 4.0.2          | -                                                               |
 | pytest-html                     | 4.1.1          | -                                                               |
           
 # Installation:
@@ -32,6 +33,7 @@ Check then both to add both options in context menu.
 - Open windows prompt as admin and execute ```pip install pytest``` to install Pytest.
 - Open windows prompt as admin and execute ```pip install Faker``` to install Faker library.
 - Open windows prompt as admin and execute ```pip install undetected-chromedriver``` to install undetected-chromedriver.
+- Open windows prompt as admin and execute ```pip install webdriver-manager``` to install webdriver-manager.
 - See [SelectorsHub page](https://chromewebstore.google.com/detail/selectorshub-xpath-helper/ndgimibanhlabgdgjcpbbndiehljcpfh?hl=pt-BR&utm_source=ext_sidebar) and install it. 
 - Open windows prompt as admin and execute ```pip install requests``` to install Requests library.
 - Open windows prompt as admin and execute ```pip install pytest-html``` to install pytest-html plugin.
@@ -72,6 +74,7 @@ Check then both to add both options in context menu.
 - [Python String strip() Method](https://www.w3schools.com/python/ref_string_strip.asp)
 - [StaleElementReferenceException on Python Selenium](https://stackoverflow.com/a/44914767/10519428)
 - [undetected-chromedriver](https://pypi.org/project/undetected-chromedriver/)
+- [webdriver-manager](https://pypi.org/project/webdriver-manager/)
 - [ChatGPT](https://openai.com/chatgpt/)
 
 # Tips:
