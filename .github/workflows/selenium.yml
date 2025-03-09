@@ -40,11 +40,23 @@ jobs:
           # Get the Chrome version from the environment
           CHROME_VERSION=${{ env.chrome_version }}
 
-          # Since the ChromeDriver version corresponds to the same version of Chrome, install the matching version of ChromeDriver
-          echo "Installing ChromeDriver for Chrome version: $CHROME_VERSION"
+          # Construct the ChromeDriver version based on the Chrome version
+          CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION" || echo "ChromeDriver version not found")
+
+          if [ "$CHROMEDRIVER_VERSION" = "ChromeDriver version not found" ]; then
+            echo "Could not find matching ChromeDriver version for Chrome version $CHROME_VERSION"
+            exit 1
+          fi
+
+          echo "Installing ChromeDriver version: $CHROMEDRIVER_VERSION"
           
           # Download and install the ChromeDriver version that matches the Chrome version
-          wget -q "https://chromedriver.storage.googleapis.com/${CHROME_VERSION}/chromedriver_linux64.zip"
+          wget -q "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip"
+          if [ $? -ne 0 ]; then
+            echo "Error downloading ChromeDriver!"
+            exit 1
+          fi
+          
           unzip chromedriver_linux64.zip
           sudo mv chromedriver /usr/local/bin/chromedriver
           rm chromedriver_linux64.zip
