@@ -39,10 +39,10 @@ jobs:
         run: |
           # Get the Chrome version from the environment
           CHROME_VERSION=${{ env.chrome_version }}
-
-          # Get the corresponding ChromeDriver version using the 'chrome-for-testing' API
-          CHROMEDRIVER_VERSION=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json" | jq -r ".versions[] | select(.version == \"$CHROME_VERSION\") | .version" || echo "ChromeDriver version not found")
-
+          
+          # Get the latest ChromeDriver release for the closest matching Chrome version
+          CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE" || echo "ChromeDriver version not found")
+          
           if [ "$CHROMEDRIVER_VERSION" = "ChromeDriver version not found" ]; then
             echo "Could not find matching ChromeDriver version for Chrome version $CHROME_VERSION"
             exit 1
@@ -69,4 +69,4 @@ jobs:
         if: success() || failure()
         with:
           name: report
-          path: ./re
+          path: ./reports/report.html
