@@ -3,3 +3,4 @@ selenium
 Faker
 requests
 pytest-html
+undetected-chromedriver
