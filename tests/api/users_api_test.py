@@ -245,7 +245,7 @@ def test_update_user_password_api():
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_password = data['user_password']
-    user_new_password = Faker().password()
+    user_new_password = Faker().password(length=12, special_chars=False, digits=True, upper_case=True, lower_case=True)
     user_token = data['user_token'] 
     body = {'currentPassword': user_password, 'newPassword': user_new_password}
     headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': user_token}
@@ -265,7 +265,6 @@ def test_update_user_password_api_bad_request():
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_password = data['user_password']
-    user_new_password = Faker().password()
     user_token = data['user_token'] 
     body = {'currentPassword': user_password, 'newPassword': "123"}
     headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': user_token}
@@ -285,7 +284,7 @@ def test_update_user_password_api_unauthorized():
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_password = data['user_password']
-    user_new_password = Faker().password()
+    user_new_password = Faker().password(length=12, special_chars=False, digits=True, upper_case=True, lower_case=True)
     user_token = data['user_token'] 
     body = {'currentPassword': user_password, 'newPassword': user_new_password}
     headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': "@"+user_token}

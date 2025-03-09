@@ -273,7 +273,7 @@ def test_update_user_password_ui(driver):
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_password = data['user_password']
-    user_new_password = Faker().password()
+    user_new_password = Faker().password(length=12, special_chars=False, digits=True, upper_case=True, lower_case=True)
     driver.get("https://practice.expandtesting.com/notes/app/profile")
     driver.find_element(By.XPATH, "//button[normalize-space()='Change password']").click()
     driver.find_element(By.CSS_SELECTOR, "input[name='currentPassword']").send_keys(user_password)
@@ -295,7 +295,6 @@ def test_update_user_password_ui_same_password(driver):
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_password = data['user_password']
-    user_new_password = Faker().password()
     driver.get("https://practice.expandtesting.com/notes/app/profile")
     driver.find_element(By.XPATH, "//button[normalize-space()='Change password']").click()
     driver.find_element(By.CSS_SELECTOR, "input[name='currentPassword']").send_keys(user_password)
