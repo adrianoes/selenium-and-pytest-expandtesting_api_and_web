@@ -39,20 +39,15 @@ jobs:
         run: |
           # Get the Chrome version from the environment
           CHROME_VERSION=${{ env.chrome_version }}
-          
-          # Use the detected Chrome version to download the corresponding ChromeDriver version
-          CHROMEDRIVER_VERSION=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json" | jq -r ".channels.Stable.version" | grep -B 1 "$CHROME_VERSION" | head -n 1)
-          
-          if [ -z "$CHROMEDRIVER_VERSION" ]; then
-            echo "No matching ChromeDriver version found!"
-            exit 1
-          fi
 
-          echo "Installing ChromeDriver version: $CHROMEDRIVER_VERSION"
-          wget -q "https://storage.googleapis.com/chrome-for-testing-public/${CHROMEDRIVER_VERSION}/linux64/chromedriver-linux64.zip"
-          unzip chromedriver-linux64.zip
-          sudo mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
-          rm -rf chromedriver-linux64.zip chromedriver-linux64
+          # Since the ChromeDriver version corresponds to the same version of Chrome, install the matching version of ChromeDriver
+          echo "Installing ChromeDriver for Chrome version: $CHROME_VERSION"
+          
+          # Download and install the ChromeDriver version that matches the Chrome version
+          wget -q "https://chromedriver.storage.googleapis.com/${CHROME_VERSION}/chromedriver_linux64.zip"
+          unzip chromedriver_linux64.zip
+          sudo mv chromedriver /usr/local/bin/chromedriver
+          rm chromedriver_linux64.zip
 
       - name: Run tests
         run: pytest ./tests -v --html=./reports/report.html
