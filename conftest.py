@@ -1,7 +1,5 @@
 import pytest
 import undetected_chromedriver as uc
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 
 @pytest.fixture
@@ -16,8 +14,7 @@ def driver():
         }
     }
     options.add_experimental_option("prefs", prefs)
-    service = Service(ChromeDriverManager().install())
-    driver = uc.Chrome(service=service, options=options)
+    driver = uc.Chrome(options=options)
     driver.maximize_window()
     driver.execute_cdp_cmd("Network.setBlockedURLs", {
         "urls": ["*ads*", "*doubleclick.net*", "*googlesyndication.com*"]
