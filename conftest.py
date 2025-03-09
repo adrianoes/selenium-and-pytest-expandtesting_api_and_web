@@ -7,6 +7,9 @@ def driver():
     options = Options()
     options.add_argument("--start-maximized")
     options.add_argument("--headless")
+
+    driver = uc.Chrome(options=options, version_main=134)
+
     prefs = {
         "profile.default_content_settings": {
             "ads": 2,
