@@ -1,7 +1,7 @@
 pytest
-selenium
+selenium==4.15.2
+undetected-chromedriver==3.5.4
 Faker
 requests
 pytest-html
-undetected-chromedriver
 webdriver-manager
