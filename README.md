@@ -14,6 +14,7 @@ UI and API testing in [expandtesting](https://practice.expandtesting.com/notes/a
 | SelectorsHub                    | 5.3.4          | -                                                               |
 | Faker                           | 30.0.0         | -                                                               |
 | requests                        | 2.32.3         | -                                                               |
+| undetected-chromedriver         | 3.5.5          | -                                                               |
 | pytest-html                     | 4.1.1          | -                                                               |
           
 # Installation:
@@ -30,6 +31,7 @@ Check then both to add both options in context menu.
 - Open windows prompt as admin and execute ```pip install selenium``` to install Selenium.
 - Open windows prompt as admin and execute ```pip install pytest``` to install Pytest.
 - Open windows prompt as admin and execute ```pip install Faker``` to install Faker library.
+- Open windows prompt as admin and execute ```pip install undetected-chromedriver``` to install undetected-chromedriver.
 - See [SelectorsHub page](https://chromewebstore.google.com/detail/selectorshub-xpath-helper/ndgimibanhlabgdgjcpbbndiehljcpfh?hl=pt-BR&utm_source=ext_sidebar) and install it. 
 - Open windows prompt as admin and execute ```pip install requests``` to install Requests library.
 - Open windows prompt as admin and execute ```pip install pytest-html``` to install pytest-html plugin.
@@ -69,6 +71,7 @@ Check then both to add both options in context menu.
 - [ImportError: No module named 'support'](https://stackoverflow.com/a/56268774/10519428)
 - [Python String strip() Method](https://www.w3schools.com/python/ref_string_strip.asp)
 - [StaleElementReferenceException on Python Selenium](https://stackoverflow.com/a/44914767/10519428)
+- [undetected-chromedriver](https://pypi.org/project/undetected-chromedriver/)
 - [ChatGPT](https://openai.com/chatgpt/)
 
 # Tips:
@@ -79,4 +82,5 @@ Check then both to add both options in context menu.
 - It was observed that Selenium performance is better when functions are called from the same test file than the test script.
 - Features to scroll to element were presenting fail behavior alongside with complications to find the element due to iframes in the screen. Arrow down workaround was used to solve this problem. This solution fits the 1980x1080 screen resolution. 
 - Always double check the best selector with the help of SelectorsHub google extension. 
+- The undetected-chromedriver library will remove adds from the screen. 
 - Trust ChatGPT.

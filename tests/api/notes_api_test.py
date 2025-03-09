@@ -481,10 +481,9 @@ def test_delete_note_api_unauthorized():
     time.sleep(5)
 
 def create_user_api(randomData):
-    user_email = Faker().company_email()
+    user_email = Faker().company_email().replace("-", "")
     user_name = Faker().name()
-    user_password = Faker().password()
-    user_password = user_password.replace("&", "")
+    user_password = Faker().password(length=12, special_chars=False, digits=True, upper_case=True, lower_case=True)
     body = {'confirmPassword': user_password, 'email': user_email, 'name': user_name, 'password': user_password}
     headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded'}
     resp = requests.post("https://practice.expandtesting.com/notes/api/users/register", headers=headers, data=body)
