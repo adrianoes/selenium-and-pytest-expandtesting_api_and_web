@@ -378,13 +378,7 @@ def test_update_note_status_api_bad_request():
     create_note_api(randomData)
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
-    note_category = data['note_category']
-    note_created_at = data['note_created_at']
-    note_description = data['note_description']
-    note_completed = True
     note_id = data['note_id']
-    note_title = data['note_title']
-    user_id = data['user_id']
     user_token = data['user_token']    
     headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': user_token}
     body = {'completed': "a"}
