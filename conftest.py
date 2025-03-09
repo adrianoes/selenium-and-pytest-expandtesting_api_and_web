@@ -15,12 +15,12 @@ driver = webdriver.Chrome(service=service)
 def driver():
     options = uc.ChromeOptions()
     options.add_argument("--start-maximized")
-    options.add_argument("--headless")
+    # options.add_argument("--headless")
     options.add_argument("--disable-gpu")  # Desativa o uso de GPU (pode ajudar em alguns casos)
     options.add_argument("--no-sandbox")  # Necessário para o ambiente de CI, como o GitHub Actions
     options.add_argument("--disable-software-rasterizer")  # Desativa o rasterizador de software
     options.add_argument("--remote-debugging-port=9222")  # Pode ajudar a solucionar problemas de comunicação
-
+    options.add_argument("--user-data-dir=/tmp/chrome-user-data")
     prefs = {
         "profile.default_content_setting_values.ads": 2,
         "profile.default_content_setting_values.popups": 2,
