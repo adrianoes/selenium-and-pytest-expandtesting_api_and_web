@@ -1,20 +1,14 @@
 import pytest
 import undetected_chromedriver as uc
-from selenium.webdriver.chrome.options import Options
 
 @pytest.fixture
 def driver():
-    options = Options()
+    options = uc.ChromeOptions()
     options.add_argument("--start-maximized")
     options.add_argument("--headless")
-
-    driver = uc.Chrome(options=options, version_main=134)
-
     prefs = {
-        "profile.default_content_settings": {
-            "ads": 2,
-            "popups": 2
-        }
+        "profile.default_content_setting_values.ads": 2,
+        "profile.default_content_setting_values.popups": 2,
     }
     options.add_experimental_option("prefs", prefs)
     driver = uc.Chrome(options=options)
