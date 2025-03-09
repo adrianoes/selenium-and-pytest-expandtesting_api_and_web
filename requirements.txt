@@ -4,4 +4,3 @@ undetected-chromedriver==3.5.4
 Faker
 requests
 pytest-html
-webdriver-manager
