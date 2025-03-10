@@ -84,10 +84,9 @@ Check then both to add both options in context menu.
 - UI and API tests to send password reset link to user's email and API tests to verify a password reset token and reset a user's password must be tested manually as they rely on e-mail verification. 
 - To avoid conection problemns, a time.sleep(5) function was implemented between tests.
 - Selenium provides no means to intercept network messages. Requests library is used to validate HTTP requests. 
-- It was observed that Selenium performance is better when functions are called from the same test file than the test script.
 - Features to scroll to element were presenting fail behavior alongside with complications to find the element due to iframes in the screen. Arrow down workaround was used to solve this problem. This solution fits the 1980x1080 and 100% scale screen resolution. 
 - Always double check the best selector with the help of SelectorsHub google extension. 
 - The undetected-chromedriver library will remove adds from the screen. 
-- Python was downgraded in workflow to 3.11 since is the last version that contains distutils library, needed for undetected-chromedriver.
+- Python was downgraded in workflow file to 3.11 since is the last version that contains distutils library, needed for undetected-chromedriver.
 - delete_note_api was created only with the practice purpose since there is the possibility to delete the user right away. 
 - Trust ChatGPT.

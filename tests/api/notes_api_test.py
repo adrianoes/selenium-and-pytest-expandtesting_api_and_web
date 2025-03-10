@@ -17,9 +17,11 @@ def test_create_note_api():
     note_description = Faker().sentence(3)
     note_title = Faker().sentence(2)
     body = {'category': note_category, 'description': note_description, 'title': note_title}
+    print(body)
     headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': user_token}
     resp = requests.post("https://practice.expandtesting.com/notes/api/notes", headers=headers, data=body)
     respJS = resp.json()
+    print(respJS)
     assert True == respJS['success']
     assert 200 == respJS['status']
     assert "Note successfully created" == respJS['message']
@@ -62,9 +64,11 @@ def test_create_note_api_bad_request():
     note_description = Faker().sentence(3)
     note_title = Faker().sentence(2)
     body = {'category': 'a', 'description': note_description, 'title': note_title}
+    print(body)
     headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': user_token}
     resp = requests.post("https://practice.expandtesting.com/notes/api/notes", headers=headers, data=body)
     respJS = resp.json()
+    print(respJS)
     assert False == respJS['success']
     assert 400 == respJS['status']
     assert "Category must be one of the categories: Home, Work, Personal" == respJS['message']
@@ -84,9 +88,11 @@ def test_create_note_api_unauthorized():
     note_description = Faker().sentence(3)
     note_title = Faker().sentence(2)
     body = {'category': note_category, 'description': note_description, 'title': note_title}
+    print(body)
     headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': '@'+user_token}
     resp = requests.post("https://practice.expandtesting.com/notes/api/notes", headers=headers, data=body)
     respJS = resp.json()
+    print(respJS)
     assert False == respJS['success']
     assert 401 == respJS['status']
     assert "Access token is not valid or has expired, you will need to login" == respJS['message']
@@ -112,9 +118,11 @@ def test_get_notes_api():
     # creates 4 notes, set the last as "complete" and asserts the 4 objects in the response.
     for x in range(4):
         body = {'category': note_category_array[x], 'description': note_description_array[x], 'title': note_title_array[x]}
+        print(body)
         headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': user_token}
         resp = requests.post("https://practice.expandtesting.com/notes/api/notes", headers=headers, data=body)
         respJS = resp.json()
+        print(respJS)
         assert True == respJS['success']
         assert 200 == respJS['status']
         assert "Note successfully created" == respJS['message']
@@ -126,12 +134,14 @@ def test_get_notes_api():
         note_updated_at_array[x] = respJS['data']['updated_at']
     headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': user_token}
     body = {'completed': "true"}
+    print(body)
     resp = requests.patch(f"https://practice.expandtesting.com/notes/api/notes/{note_id_array[3]}", headers=headers, data=body)
     respJS = resp.json()
     note_updated_at_array[3] = respJS['data']['updated_at']    
     headers = {'accept': 'application/json', 'x-auth-token': user_token}
     resp = requests.get(f"https://practice.expandtesting.com/notes/api/notes", headers=headers)
     respJS = resp.json()
+    print(respJS)
     assert True == respJS['success']
     assert 200 == respJS['status']
     assert "Notes successfully retrieved" == respJS['message']
@@ -166,9 +176,11 @@ def test_get_notes_api_unauthorized():
     # creates 4 notes, set the last as "complete" and asserts the 4 objects in the response.
     for x in range(4):
         body = {'category': note_category_array[x], 'description': note_description_array[x], 'title': note_title_array[x]}
+        print(body)
         headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': user_token}
         resp = requests.post("https://practice.expandtesting.com/notes/api/notes", headers=headers, data=body)
         respJS = resp.json()
+        print(respJS)
         assert True == respJS['success']
         assert 200 == respJS['status']
         assert "Note successfully created" == respJS['message']
@@ -180,12 +192,14 @@ def test_get_notes_api_unauthorized():
         note_updated_at_array[x] = respJS['data']['updated_at']
     headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': user_token}
     body = {'completed': "true"}
+    print(body)
     resp = requests.patch(f"https://practice.expandtesting.com/notes/api/notes/{note_id_array[3]}", headers=headers, data=body)
     respJS = resp.json()
     note_updated_at_array[3] = respJS['data']['updated_at']    
     headers = {'accept': 'application/json', 'x-auth-token': '@'+user_token}
     resp = requests.get(f"https://practice.expandtesting.com/notes/api/notes", headers=headers)
     respJS = resp.json()
+    print(respJS)
     assert False == respJS['success']
     assert 401 == respJS['status']
     assert "Access token is not valid or has expired, you will need to login" == respJS['message']      
@@ -212,6 +226,7 @@ def test_get_note_api():
     headers = {'accept': 'application/json', 'x-auth-token': user_token}
     resp = requests.get(f"https://practice.expandtesting.com/notes/api/notes/{note_id}", headers=headers)
     respJS = resp.json()
+    print(respJS)
     assert True == respJS['success']
     assert 200 == respJS['status']
     assert "Note successfully retrieved" == respJS['message']
@@ -246,6 +261,7 @@ def test_get_note_api_unauthorized():
     headers = {'accept': 'application/json', 'x-auth-token': '@'+user_token}
     resp = requests.get(f"https://practice.expandtesting.com/notes/api/notes/{note_id}", headers=headers)
     respJS = resp.json()
+    print(respJS)
     assert False == respJS['success']
     assert 401 == respJS['status']
     assert "Access token is not valid or has expired, you will need to login" == respJS['message'] 
@@ -270,8 +286,10 @@ def test_update_note_api():
     user_token = data['user_token']    
     headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': user_token}
     body = {'category': note_category, 'completed': "true", 'description': note_description, 'title': note_title}
+    print(body)
     resp = requests.put(f"https://practice.expandtesting.com/notes/api/notes/{note_id}", headers=headers, data=body)
     respJS = resp.json()
+    print(respJS)
     assert True == respJS['success']
     assert 200 == respJS['status']
     assert "Note successfully Updated" == respJS['message']
@@ -303,8 +321,10 @@ def test_update_note_api_bad_request():
     user_token = data['user_token']    
     headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': user_token}
     body = {'category': 'a', 'completed': "true", 'description': note_description, 'title': note_title}
+    print(body)
     resp = requests.put(f"https://practice.expandtesting.com/notes/api/notes/{note_id}", headers=headers, data=body)
     respJS = resp.json()
+    print(respJS)
     assert False == respJS['success']
     assert 400 == respJS['status']
     assert "Category must be one of the categories: Home, Work, Personal" == respJS['message']
@@ -329,8 +349,10 @@ def test_update_note_api_unauthorized():
     user_token = data['user_token']    
     headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': "@"+user_token}
     body = {'category': note_category, 'completed': "true", 'description': note_description, 'title': note_title}
+    print(body)
     resp = requests.put(f"https://practice.expandtesting.com/notes/api/notes/{note_id}", headers=headers, data=body)
     respJS = resp.json()
+    print(respJS)
     assert False == respJS['success']
     assert 401 == respJS['status']
     assert "Access token is not valid or has expired, you will need to login" == respJS['message'] 
@@ -355,8 +377,10 @@ def test_update_note_status_api():
     user_token = data['user_token']    
     headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': user_token}
     body = {'completed': "true"}
+    print(body)
     resp = requests.patch(f"https://practice.expandtesting.com/notes/api/notes/{note_id}", headers=headers, data=body)
     respJS = resp.json()
+    print(respJS)
     assert True == respJS['success']
     assert 200 == respJS['status']
     assert "Note successfully Updated" == respJS['message']
@@ -382,8 +406,10 @@ def test_update_note_status_api_bad_request():
     user_token = data['user_token']    
     headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': user_token}
     body = {'completed': "a"}
+    print(body)
     resp = requests.patch(f"https://practice.expandtesting.com/notes/api/notes/{note_id}", headers=headers, data=body)
     respJS = resp.json()
+    print(respJS)
     assert False == respJS['success']
     assert 400 == respJS['status']
     assert "Note completed status must be boolean" == respJS['message']
@@ -408,8 +434,10 @@ def test_update_note_status_api_unauthorized():
     user_token = data['user_token']    
     headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': "@"+user_token}
     body = {'completed': note_completed}
+    print(body)
     resp = requests.patch(f"https://practice.expandtesting.com/notes/api/notes/{note_id}", headers=headers, data=body)
     respJS = resp.json()
+    print(respJS)
     assert False == respJS['success']
     assert 401 == respJS['status']
     assert "Access token is not valid or has expired, you will need to login" == respJS['message'] 
@@ -429,6 +457,7 @@ def test_delete_note_api():
     headers = {'accept': 'application/json', 'x-auth-token': user_token}
     resp = requests.delete(f"https://practice.expandtesting.com/notes/api/notes/{note_id}", headers=headers)
     respJS = resp.json()
+    print(respJS)
     assert True == respJS['success']
     assert 200 == respJS['status']
     assert "Note successfully deleted" == respJS['message']
@@ -448,6 +477,7 @@ def test_delete_note_api_bad_request():
     headers = {'accept': 'application/json', 'x-auth-token': user_token}
     resp = requests.delete(f"https://practice.expandtesting.com/notes/api/notes/'@'+{note_id}", headers=headers)
     respJS = resp.json()
+    print(respJS)
     assert False == respJS['success']
     assert 400 == respJS['status']
     assert "Note ID must be a valid ID" == respJS['message']
@@ -467,6 +497,7 @@ def test_delete_note_api_unauthorized():
     headers = {'accept': 'application/json', 'x-auth-token': '@'+user_token}
     resp = requests.delete(f"https://practice.expandtesting.com/notes/api/notes/{note_id}", headers=headers)
     respJS = resp.json()
+    print(respJS)
     assert False == respJS['success']
     assert 401 == respJS['status']
     assert "Access token is not valid or has expired, you will need to login" == respJS['message']

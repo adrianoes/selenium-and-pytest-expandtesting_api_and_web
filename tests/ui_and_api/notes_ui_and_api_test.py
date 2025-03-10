@@ -26,6 +26,7 @@ def test_create_note_ui_and_api(driver):
     driver.get("https://practice.expandtesting.com/notes/app/")
     for x in range(5):
         driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
+    time.sleep(5)
     driver.find_element(By.XPATH,"//button[normalize-space()='+ Add Note']").click() 
     driver.find_element(By.CSS_SELECTOR,"#category").click()
     driver.find_element(By.CSS_SELECTOR,f"#category > option:nth-child({note_category})").click()
@@ -88,6 +89,7 @@ def test_create_note_ui_and_api_invalid_title(driver):
     driver.get("https://practice.expandtesting.com/notes/app/")
     for x in range(5):
         driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
+    time.sleep(5)
     driver.find_element(By.XPATH,"//button[normalize-space()='+ Add Note']").click() 
     driver.find_element(By.CSS_SELECTOR,"#category").click()
     driver.find_element(By.CSS_SELECTOR,f"#category > option:nth-child({note_category})").click()
@@ -115,6 +117,7 @@ def test_create_note_ui_and_api_invalid_description(driver):
     driver.get("https://practice.expandtesting.com/notes/app/")
     for x in range(5):
         driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
+    time.sleep(5)
     driver.find_element(By.XPATH,"//button[normalize-space()='+ Add Note']").click() 
     driver.find_element(By.CSS_SELECTOR,"#category").click()
     driver.find_element(By.CSS_SELECTOR,f"#category > option:nth-child({note_category})").click()

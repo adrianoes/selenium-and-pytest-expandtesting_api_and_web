@@ -8,9 +8,11 @@ def create_user_api(randomData):
     user_name = Faker().name()
     user_password = Faker().password(length=12, special_chars=False, digits=True, upper_case=True, lower_case=True)
     body = {'confirmPassword': user_password, 'email': user_email, 'name': user_name, 'password': user_password}
+    print(body)
     headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded'}
     resp = requests.post("https://practice.expandtesting.com/notes/api/users/register", headers=headers, data=body)
     respJS = resp.json()
+    print(respJS)
     assert True == respJS['success']
     assert 201 == respJS['status']
     assert "User account created successfully" == respJS['message']
@@ -34,9 +36,11 @@ def login_user_api(randomData):
     user_password = data['user_password']  
     user_name = data['user_name']  
     body = {'email': user_email, 'password': user_password}
+    print(body)
     headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded'}
     resp = requests.post("https://practice.expandtesting.com/notes/api/users/login", headers=headers, data=body)
     respJS = resp.json()
+    print(respJS)
     assert True == respJS['success']
     assert 200 == respJS['status']
     assert "Login successful" == respJS['message']
@@ -61,6 +65,7 @@ def delete_user_api(randomData):
     headers = {'accept': 'application/json', 'x-auth-token': user_token}
     resp = requests.delete("https://practice.expandtesting.com/notes/api/users/delete-account", headers=headers)
     respJS = resp.json()
+    print(respJS)
     assert True == respJS['success']
     assert 200 == respJS['status']
     assert "Account successfully deleted" == respJS['message']
@@ -73,6 +78,7 @@ def delete_note_api(randomData):
     headers = {'accept': 'application/json', 'x-auth-token': user_token}
     resp = requests.delete(f"https://practice.expandtesting.com/notes/api/notes/{note_id}", headers=headers)
     respJS = resp.json()
+    print(respJS)
     assert True == respJS['success']
     assert 200 == respJS['status']
     assert "Note successfully deleted" == respJS['message']
@@ -86,9 +92,11 @@ def create_note_api(randomData):
     note_description = Faker().sentence(3)
     note_title = Faker().sentence(2)
     body = {'category': note_category, 'description': note_description, 'title': note_title}
+    print(body)
     headers = {'accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded', 'x-auth-token': user_token}
     resp = requests.post("https://practice.expandtesting.com/notes/api/notes", headers=headers, data=body)
     respJS = resp.json()
+    print(respJS)
     assert True == respJS['success']
     assert 200 == respJS['status']
     assert "Note successfully created" == respJS['message']
