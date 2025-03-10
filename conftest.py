@@ -5,6 +5,7 @@ import undetected_chromedriver as uc
 def driver():
     options = uc.ChromeOptions()
     options.add_argument("--start-maximized")
+    options.add_argument("--headless")
     prefs = {
         "profile.default_content_setting_values.ads": 2,
         "profile.default_content_setting_values.popups": 2,
@@ -17,6 +18,6 @@ def driver():
     })
     driver.execute_cdp_cmd("Network.enable", {})
 
-    yield driver  # Passa o driver para os testes
+    yield driver  
 
-    driver.quit()  # Fecha o driver após o teste
+    driver.quit()  
