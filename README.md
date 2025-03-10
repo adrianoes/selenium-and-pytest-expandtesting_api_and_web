@@ -74,7 +74,9 @@ Check then both to add both options in context menu.
 - [Python String strip() Method](https://www.w3schools.com/python/ref_string_strip.asp)
 - [StaleElementReferenceException on Python Selenium](https://stackoverflow.com/a/44914767/10519428)
 - [undetected-chromedriver](https://pypi.org/project/undetected-chromedriver/)
+- [SessionNotCreatedException: Message: session not created: This version of ChromeDriver only supports Chrome version 81](https://stackoverflow.com/a/61412036)
 - [webdriver-manager](https://pypi.org/project/webdriver-manager/)
+- [distutils](https://docs.python.org/3/library/distutils.html)
 - [ChatGPT](https://openai.com/chatgpt/)
 
 # Tips:
@@ -83,7 +85,9 @@ Check then both to add both options in context menu.
 - To avoid conection problemns, a time.sleep(5) function was implemented between tests.
 - Selenium provides no means to intercept network messages. Requests library is used to validate HTTP requests. 
 - It was observed that Selenium performance is better when functions are called from the same test file than the test script.
-- Features to scroll to element were presenting fail behavior alongside with complications to find the element due to iframes in the screen. Arrow down workaround was used to solve this problem. This solution fits the 1980x1080 screen resolution. 
+- Features to scroll to element were presenting fail behavior alongside with complications to find the element due to iframes in the screen. Arrow down workaround was used to solve this problem. This solution fits the 1980x1080 and 100% scale screen resolution. 
 - Always double check the best selector with the help of SelectorsHub google extension. 
 - The undetected-chromedriver library will remove adds from the screen. 
+- Python was downgraded in workflow to 3.11 since is the last version that contains distutils library, needed for undetected-chromedriver.
+- delete_note_api was created only with the practice purpose since there is the possibility to delete the user right away. 
 - Trust ChatGPT.
