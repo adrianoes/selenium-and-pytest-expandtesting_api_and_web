@@ -1,6 +1,6 @@
 # selenium-expandtesting_web_and_api
 
-UI and API testing in [expandtesting](https://practice.expandtesting.com/notes/app/) note app. This project contains basic examples on how to use Selenium to test UI, API and how to combine UI and API tests writen in Python. Good practices such as hooks, custom commands and tags, among others, are used. All the necessary support documentation to develop this project is placed here. Although custom commands are used, the assertion code to each test is kept in it so we can work independently in each test. Requests library is used to deal with API tests. It creates one .json file for each test so we can share data between different commands in the test. The .json file is excluded after each test execution. 
+WEB and API testing in [expandtesting](https://practice.expandtesting.com/notes/app/) note app. This project contains basic examples on how to use Selenium to test WEB, API and how to combine WEB and API tests writen in Python. Good practices such as hooks, custom commands and tags, among others, are used. All the necessary support documentation to develop this project is placed here. Although custom commands are used, the assertion code to each test is kept in it so we can work independently in each test. Requests library is used to deal with API tests. It creates one .json file for each test so we can share data between different commands in the test. The .json file is excluded after each test execution. 
 
 # Pre-requirements:
 
@@ -41,7 +41,7 @@ Check then both to add both options in context menu.
 # Tests:
 
 - Execute ```pytest ./tests -v --html=./reports/report.html``` to run tests in verbose mode and generate a report inside reports folder.
-- Execute ```pytest .\tests\ui\notes_ui_test.py -k note_ui_invalid -v --html=./reports/report.html``` to run tests that contains "note_ui_invalid" in its structure inside notes_ui_test.py file in verbose mode and generate a report inside reports folder.
+- Execute ```pytest .\tests\web\notes_web_test.py -k note_web_invalid -v --html=./reports/report.html``` to run tests that contains "note_web_invalid" in its structure inside notes_web_test.py file in verbose mode and generate a report inside reports folder.
 
 # Support:
 
@@ -81,7 +81,7 @@ Check then both to add both options in context menu.
 
 # Tips:
 
-- UI and API tests to send password reset link to user's email and API tests to verify a password reset token and reset a user's password must be tested manually as they rely on e-mail verification. 
+- WEB and API tests to send password reset link to user's email and API tests to verify a password reset token and reset a user's password must be tested manually as they rely on e-mail verification. 
 - To avoid conection problemns, a time.sleep(5) function was implemented between tests.
 - Selenium provides no means to intercept network messages. Requests library is used to validate HTTP requests. 
 - Features to scroll to element were presenting fail behavior alongside with complications to find the element due to iframes in the screen. Arrow down workaround was used to solve this problem. This solution fits the 1980x1080 and 100% scale screen resolution. 

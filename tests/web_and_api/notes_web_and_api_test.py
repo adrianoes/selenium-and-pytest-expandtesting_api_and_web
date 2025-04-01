@@ -8,12 +8,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from faker import Faker
 from selenium.webdriver.support.ui import Select
-from .support_ui_and_api import create_note_ui, create_user_api, delete_json_file, delete_user_api, login_user_ui
+from .support_web_and_api import create_note_web, create_user_api, delete_json_file, delete_user_api, login_user_web
 
-def test_create_note_ui_and_api(driver):
+def test_create_note_web_and_api(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
-    login_user_ui(randomData, driver)
+    login_user_web(randomData, driver)
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file) 
     user_token = data['user_token'] 
@@ -76,10 +76,10 @@ def test_create_note_ui_and_api(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_create_note_ui_and_api_invalid_title(driver):
+def test_create_note_web_and_api_invalid_title(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
-    login_user_ui(randomData, driver)
+    login_user_web(randomData, driver)
     # 1 = Home, 2 = Work , 3 = Personal
     note_category = Faker().random_element(elements=(1, 2, 3))
     # 1 = Checked, 2 = Unchecked
@@ -104,10 +104,10 @@ def test_create_note_ui_and_api_invalid_title(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_create_note_ui_and_api_invalid_description(driver):
+def test_create_note_web_and_api_invalid_description(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
-    login_user_ui(randomData, driver)
+    login_user_web(randomData, driver)
     # 1 = Home, 2 = Work , 3 = Personal
     note_category = Faker().random_element(elements=(1, 2, 3))
     # 1 = Checked, 2 = Unchecked
@@ -132,10 +132,10 @@ def test_create_note_ui_and_api_invalid_description(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_check_notes_ui_and_api(driver):
+def test_check_notes_web_and_api(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
-    login_user_ui(randomData, driver)
+    login_user_web(randomData, driver)
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file) 
     user_token = data['user_token']
@@ -190,11 +190,11 @@ def test_check_notes_ui_and_api(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_check_note_ui_and_api(driver):
+def test_check_note_web_and_api(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
-    login_user_ui(randomData, driver)
-    create_note_ui(randomData, driver)
+    login_user_web(randomData, driver)
+    create_note_web(randomData, driver)
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     note_category = data['note_category']   
@@ -238,11 +238,11 @@ def test_check_note_ui_and_api(driver):
     delete_json_file(randomData)
     time.sleep(5)
     
-def test_update_note_ui_and_api(driver):
+def test_update_note_web_and_api(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
-    login_user_ui(randomData, driver)
-    create_note_ui(randomData, driver)
+    login_user_web(randomData, driver)
+    create_note_web(randomData, driver)
     # 1 = Home, 2 = Work , 3 = Personal
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file) 
@@ -312,11 +312,11 @@ def test_update_note_ui_and_api(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_update_note_ui_and_api_invalid_title(driver):
+def test_update_note_web_and_api_invalid_title(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
-    login_user_ui(randomData, driver)
-    create_note_ui(randomData, driver)
+    login_user_web(randomData, driver)
+    create_note_web(randomData, driver)
     # 1 = Home, 2 = Work , 3 = Personal
     note_category = Faker().random_element(elements=(1, 2, 3))
     note_description = Faker().sentence(3)
@@ -339,11 +339,11 @@ def test_update_note_ui_and_api_invalid_title(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_update_note_ui_and_api_invalid_description(driver):
+def test_update_note_web_and_api_invalid_description(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
-    login_user_ui(randomData, driver)
-    create_note_ui(randomData, driver)
+    login_user_web(randomData, driver)
+    create_note_web(randomData, driver)
     # 1 = Home, 2 = Work , 3 = Personal
     note_category = Faker().random_element(elements=(1, 2, 3))
     note_description = "e"
@@ -366,11 +366,11 @@ def test_update_note_ui_and_api_invalid_description(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_update_note_status_ui_and_api(driver):
+def test_update_note_status_web_and_api(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
-    login_user_ui(randomData, driver)
-    create_note_ui(randomData, driver)
+    login_user_web(randomData, driver)
+    create_note_web(randomData, driver)
     #switch
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
@@ -428,11 +428,11 @@ def test_update_note_status_ui_and_api(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_delete_note_ui_and_api(driver):
+def test_delete_note_web_and_api(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
-    login_user_ui(randomData, driver)
-    create_note_ui(randomData, driver)
+    login_user_web(randomData, driver)
+    create_note_web(randomData, driver)
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     note_id = data['note_id'] 
@@ -451,7 +451,7 @@ def test_delete_note_ui_and_api(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-# def login_user_ui(randomData, driver):
+# def login_user_web(randomData, driver):
 #     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
 #         data = json.load(json_file)
 #     user_email = data['user_email']   
@@ -483,7 +483,7 @@ def test_delete_note_ui_and_api(driver):
 #     with open(f"./tests/fixtures/file-{randomData}.json", 'w') as json_file:
 #         json.dump(combined_responses, json_file, indent=4)
 
-# def create_note_ui(randomData, driver):
+# def create_note_web(randomData, driver):
 #     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
 #         data = json.load(json_file) 
 #     user_token = data['user_token'] 

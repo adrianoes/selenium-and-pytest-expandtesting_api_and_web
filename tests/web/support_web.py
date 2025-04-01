@@ -11,7 +11,7 @@ from faker import Faker
 def delete_json_file(randomData):
     os.remove(f"./tests/fixtures/file-{randomData}.json")
 
-def create_user_ui(randomData, driver):
+def create_user_web(randomData, driver):
     user_email = Faker().company_email().replace("-", "")
     user_name = Faker().name()
     user_password = Faker().password(length=12, special_chars=False, digits=True, upper_case=True, lower_case=True)
@@ -36,7 +36,7 @@ def create_user_ui(randomData, driver):
     with open(f"./tests/fixtures/file-{randomData}.json", 'w') as json_file:
         json.dump(combined_responses, json_file, indent=4)
 
-def login_user_ui(randomData, driver):
+def login_user_web(randomData, driver):
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_email = data['user_email']   
@@ -68,7 +68,7 @@ def login_user_ui(randomData, driver):
     with open(f"./tests/fixtures/file-{randomData}.json", 'w') as json_file:
         json.dump(combined_responses, json_file, indent=4)
 
-def delete_user_ui(driver):
+def delete_user_web(driver):
     driver.get("https://practice.expandtesting.com/notes/app/profile")
     for x in range(12):
         driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
@@ -78,7 +78,7 @@ def delete_user_ui(driver):
     user_deleted = driver.find_element(By.CSS_SELECTOR, "#root > div > div > div > div > div:nth-child(2) > div > div > div").is_displayed()
     assert user_deleted == True
 
-def create_note_ui(randomData, driver):
+def create_note_web(randomData, driver):
     # 1 = Home, 2 = Work , 3 = Personal
     note_category = Faker().random_element(elements=(1, 2, 3))
     # 1 = Checked, 2 = Unchecked

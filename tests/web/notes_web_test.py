@@ -8,12 +8,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from faker import Faker
 from selenium.webdriver.support.ui import Select
-from .support_ui import create_note_ui, create_user_ui, delete_json_file, delete_user_ui, login_user_ui
+from .support_web import create_note_web, create_user_web, delete_json_file, delete_user_web, login_user_web
 
-def test_create_note_ui(driver):
+def test_create_note_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
-    create_user_ui(randomData, driver)
-    login_user_ui(randomData, driver)
+    create_user_web(randomData, driver)
+    login_user_web(randomData, driver)
     # 1 = Home, 2 = Work , 3 = Personal
     note_category = Faker().random_element(elements=(1, 2, 3))
     # 1 = Checked, 2 = Unchecked
@@ -68,14 +68,14 @@ def test_create_note_ui(driver):
     }
     with open(f"./tests/fixtures/file-{randomData}.json", 'w') as json_file:
         json.dump(combined_responses, json_file, indent=4)
-    delete_user_ui(driver)
+    delete_user_web(driver)
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_create_note_ui_invalid_title(driver):
+def test_create_note_web_invalid_title(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
-    create_user_ui(randomData, driver)
-    login_user_ui(randomData, driver)
+    create_user_web(randomData, driver)
+    login_user_web(randomData, driver)
     # 1 = Home, 2 = Work , 3 = Personal
     note_category = Faker().random_element(elements=(1, 2, 3))
     # 1 = Checked, 2 = Unchecked
@@ -96,14 +96,14 @@ def test_create_note_ui_invalid_title(driver):
     driver.find_element(By.CSS_SELECTOR,"button[data-testid='note-submit']").click()
     invalid_title_message = driver.find_element(By.XPATH, "//div[normalize-space()='Title should be between 4 and 100 characters']")
     assert invalid_title_message.is_displayed()
-    delete_user_ui(driver)
+    delete_user_web(driver)
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_create_note_ui_invalid_description(driver):
+def test_create_note_web_invalid_description(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
-    create_user_ui(randomData, driver)
-    login_user_ui(randomData, driver)
+    create_user_web(randomData, driver)
+    login_user_web(randomData, driver)
     # 1 = Home, 2 = Work , 3 = Personal
     note_category = Faker().random_element(elements=(1, 2, 3))
     # 1 = Checked, 2 = Unchecked
@@ -124,14 +124,14 @@ def test_create_note_ui_invalid_description(driver):
     driver.find_element(By.CSS_SELECTOR,"button[data-testid='note-submit']").click()
     invalid_description_message = driver.find_element(By.XPATH, "//div[normalize-space()='Description should be between 4 and 1000 characters']")
     assert invalid_description_message.is_displayed()
-    delete_user_ui(driver)
+    delete_user_web(driver)
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_check_notes_ui(driver):
+def test_check_notes_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
-    create_user_ui(randomData, driver)
-    login_user_ui(randomData, driver)
+    create_user_web(randomData, driver)
+    login_user_web(randomData, driver)
     note_category_array = [Faker().random_element(elements=("Home", "Work", "Personal")), "Home", "Work", "Personal"]
     note_completed_array = [1, 2, 2, 2]
     note_description_array = [Faker().sentence(3), Faker().sentence(3), Faker().sentence(3), Faker().sentence(3)]
@@ -174,15 +174,15 @@ def test_check_notes_ui(driver):
             assert note_style_array[x] == "background-color: rgb(92, 107, 192); color: rgb(255, 255, 255);"
         else:  # Assuming Personal
             assert note_style_array[x] == "background-color: rgb(50, 140, 160); color: rgb(255, 255, 255);"
-    delete_user_ui(driver)
+    delete_user_web(driver)
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_check_note_ui(driver):
+def test_check_note_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
-    create_user_ui(randomData, driver)
-    login_user_ui(randomData, driver)
-    create_note_ui(randomData, driver)
+    create_user_web(randomData, driver)
+    login_user_web(randomData, driver)
+    create_note_web(randomData, driver)
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     note_category = data['note_category']   
@@ -216,15 +216,15 @@ def test_check_note_ui(driver):
     else:
         assert note_style == "background-color: rgb(50, 140, 160); color: rgb(255, 255, 255);" 
         assert checkbox_status_element.is_selected() == False 
-    delete_user_ui(driver)
+    delete_user_web(driver)
     delete_json_file(randomData)
     time.sleep(5)
     
-def test_update_note_ui(driver):
+def test_update_note_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
-    create_user_ui(randomData, driver)
-    login_user_ui(randomData, driver)
-    create_note_ui(randomData, driver)
+    create_user_web(randomData, driver)
+    login_user_web(randomData, driver)
+    create_note_web(randomData, driver)
     # 1 = Home, 2 = Work , 3 = Personal
     note_category = Faker().random_element(elements=(1, 2, 3))
     note_description = Faker().sentence(3)
@@ -282,15 +282,15 @@ def test_update_note_ui(driver):
     assert note_description_element.is_displayed()
     assert note_title_element.is_displayed()
     assert note_updated_at_element.is_displayed() 
-    delete_user_ui(driver)
+    delete_user_web(driver)
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_update_note_ui_invalid_title(driver):
+def test_update_note_web_invalid_title(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
-    create_user_ui(randomData, driver)
-    login_user_ui(randomData, driver)
-    create_note_ui(randomData, driver)
+    create_user_web(randomData, driver)
+    login_user_web(randomData, driver)
+    create_note_web(randomData, driver)
     # 1 = Home, 2 = Work , 3 = Personal
     note_category = Faker().random_element(elements=(1, 2, 3))
     note_description = Faker().sentence(3)
@@ -309,15 +309,15 @@ def test_update_note_ui_invalid_title(driver):
     driver.find_element(By.CSS_SELECTOR,"button[data-testid='note-submit']").click()
     invalid_title_message = driver.find_element(By.XPATH, "//div[normalize-space()='Title should be between 4 and 100 characters']")
     assert invalid_title_message.is_displayed() 
-    delete_user_ui(driver)
+    delete_user_web(driver)
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_update_note_ui_invalid_description(driver):
+def test_update_note_web_invalid_description(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
-    create_user_ui(randomData, driver)
-    login_user_ui(randomData, driver)
-    create_note_ui(randomData, driver)
+    create_user_web(randomData, driver)
+    login_user_web(randomData, driver)
+    create_note_web(randomData, driver)
     # 1 = Home, 2 = Work , 3 = Personal
     note_category = Faker().random_element(elements=(1, 2, 3))
     note_description = "e"
@@ -336,15 +336,15 @@ def test_update_note_ui_invalid_description(driver):
     driver.find_element(By.CSS_SELECTOR,"button[data-testid='note-submit']").click()
     invalid_description_message = driver.find_element(By.XPATH, "//div[normalize-space()='Description should be between 4 and 1000 characters']")
     assert invalid_description_message.is_displayed()
-    delete_user_ui(driver)
+    delete_user_web(driver)
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_update_note_status_ui(driver):
+def test_update_note_status_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
-    create_user_ui(randomData, driver)
-    login_user_ui(randomData, driver)
-    create_note_ui(randomData, driver)
+    create_user_web(randomData, driver)
+    login_user_web(randomData, driver)
+    create_note_web(randomData, driver)
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     note_category = data['note_category']   
@@ -389,15 +389,15 @@ def test_update_note_status_ui(driver):
         assert expected_part_unchecked in full_text       
     assert note_description_element.is_displayed()
     assert note_title_element.is_displayed() 
-    delete_user_ui(driver)
+    delete_user_web(driver)
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_delete_note_ui(driver):
+def test_delete_note_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
-    create_user_ui(randomData, driver)
-    login_user_ui(randomData, driver)
-    create_note_ui(randomData, driver)
+    create_user_web(randomData, driver)
+    login_user_web(randomData, driver)
+    create_note_web(randomData, driver)
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     note_id = data['note_id']   
@@ -406,11 +406,11 @@ def test_delete_note_ui(driver):
         driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
     driver.find_element(By.CSS_SELECTOR,"button[data-testid='note-delete']").click()
     driver.find_element(By.CSS_SELECTOR,".btn.btn-danger").click()
-    delete_user_ui(driver)
+    delete_user_web(driver)
     delete_json_file(randomData)
     time.sleep(5)
 
-# def create_user_ui(randomData, driver):
+# def create_user_web(randomData, driver):
 #     user_email = Faker().company_email().replace("-", "")
 #     user_name = Faker().name()
 #     user_password = Faker().password(length=12, special_chars=False, digits=True, upper_case=True, lower_case=True)
@@ -435,7 +435,7 @@ def test_delete_note_ui(driver):
 #     with open(f"./tests/fixtures/file-{randomData}.json", 'w') as json_file:
 #         json.dump(combined_responses, json_file, indent=4)
 
-# def login_user_ui(randomData, driver):
+# def login_user_web(randomData, driver):
 #     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
 #         data = json.load(json_file)
 #     user_email = data['user_email']   
@@ -467,7 +467,7 @@ def test_delete_note_ui(driver):
 #     with open(f"./tests/fixtures/file-{randomData}.json", 'w') as json_file:
 #         json.dump(combined_responses, json_file, indent=4)
 
-# def delete_user_ui(driver):
+# def delete_user_web(driver):
 #     driver.get("https://practice.expandtesting.com/notes/app/profile")
 #     for x in range(12):
 #         driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
@@ -477,7 +477,7 @@ def test_delete_note_ui(driver):
 #     user_deleted = driver.find_element(By.CSS_SELECTOR, "#root > div > div > div > div > div:nth-child(2) > div > div > div").is_displayed()
 #     assert user_deleted == True
 
-# def create_note_ui(randomData, driver):
+# def create_note_web(randomData, driver):
 #     # 1 = Home, 2 = Work , 3 = Personal
 #     note_category = Faker().random_element(elements=(1, 2, 3))
 #     # 1 = Checked, 2 = Unchecked

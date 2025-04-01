@@ -8,7 +8,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from faker import Faker
 
-def login_user_ui(randomData, driver):
+def login_user_web(randomData, driver):
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_email = data['user_email']   
@@ -40,7 +40,7 @@ def login_user_ui(randomData, driver):
     with open(f"./tests/fixtures/file-{randomData}.json", 'w') as json_file:
         json.dump(combined_responses, json_file, indent=4)
 
-def create_note_ui(randomData, driver):
+def create_note_web(randomData, driver):
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file) 
     user_token = data['user_token'] 
@@ -151,7 +151,7 @@ def delete_note_api(randomData):
     assert "Note successfully deleted" == respJS['message']
 
 def login_user_api_getting_id(randomData):
-    # Getting user id here because there is no way to get in the ui user creation test, and we need user id to assert the response.
+    # Getting user id here because there is no way to get in the web user creation test, and we need user id to assert the response.
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_email = data['user_email']

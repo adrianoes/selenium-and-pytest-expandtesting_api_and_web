@@ -7,9 +7,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from faker import Faker
-from .support_ui import create_user_ui, delete_json_file, delete_user_ui, login_user_ui
+from .support_web import create_user_web, delete_json_file, delete_user_web, login_user_web
 
-def test_create_user_ui(driver):
+def test_create_user_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     user_email = Faker().company_email().replace("-", "")
     user_name = Faker().name()
@@ -34,12 +34,12 @@ def test_create_user_ui(driver):
     }
     with open(f"./tests/fixtures/file-{randomData}.json", 'w') as json_file:
         json.dump(combined_responses, json_file, indent=4)
-    login_user_ui(randomData, driver)
-    delete_user_ui(driver)
+    login_user_web(randomData, driver)
+    delete_user_web(driver)
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_create_user_ui_invalid_email(driver):
+def test_create_user_web_invalid_email(driver):
     user_email = '@'+Faker().company_email()
     user_name = Faker().name()
     user_password = Faker().password(length=12, special_chars=False, digits=True, upper_case=True, lower_case=True)
@@ -58,7 +58,7 @@ def test_create_user_ui_invalid_email(driver):
     assert invalid_email_message == True
     time.sleep(5)
 
-def test_create_user_ui_wrong_password(driver):
+def test_create_user_web_wrong_password(driver):
     user_email = Faker().company_email().replace("-", "")
     user_name = Faker().name()
     user_password = Faker().password(length=12, special_chars=False, digits=True, upper_case=True, lower_case=True)
@@ -77,9 +77,9 @@ def test_create_user_ui_wrong_password(driver):
     assert wrong_password_message == True
     time.sleep(5)
 
-def test_login_user_ui(driver):
+def test_login_user_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
-    create_user_ui(randomData, driver)
+    create_user_web(randomData, driver)
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_email = data['user_email']   
@@ -110,13 +110,13 @@ def test_login_user_ui(driver):
     }
     with open(f"./tests/fixtures/file-{randomData}.json", 'w') as json_file:
         json.dump(combined_responses, json_file, indent=4)
-    delete_user_ui(driver)
+    delete_user_web(driver)
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_login_user_ui_invalid_email(driver):
+def test_login_user_web_invalid_email(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
-    create_user_ui(randomData, driver)
+    create_user_web(randomData, driver)
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_email = data['user_email']   
@@ -132,14 +132,14 @@ def test_login_user_ui_invalid_email(driver):
     driver.find_element(By.CSS_SELECTOR, "div.form-group > button").click()
     invalid_email_message = driver.find_element(By.XPATH,"//div[@data-testid='alert-message'][contains(.,'A valid email address is required')]").is_displayed()
     assert invalid_email_message == True
-    login_user_ui(randomData, driver)
-    delete_user_ui(driver)
+    login_user_web(randomData, driver)
+    delete_user_web(driver)
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_login_user_ui_wrong_password(driver):
+def test_login_user_web_wrong_password(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
-    create_user_ui(randomData, driver)
+    create_user_web(randomData, driver)
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_email = data['user_email']   
@@ -155,15 +155,15 @@ def test_login_user_ui_wrong_password(driver):
     driver.find_element(By.CSS_SELECTOR, "div.form-group > button").click()
     invalid_email_message = driver.find_element(By.XPATH,"//div[@data-testid='alert-message'][contains(.,'Incorrect email address or password')]").is_displayed()
     assert invalid_email_message == True
-    login_user_ui(randomData, driver)
-    delete_user_ui(driver)
+    login_user_web(randomData, driver)
+    delete_user_web(driver)
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_check_user_ui(driver):
+def test_check_user_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
-    create_user_ui(randomData, driver)
-    login_user_ui(randomData, driver)
+    create_user_web(randomData, driver)
+    login_user_web(randomData, driver)
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_email = data['user_email']   
@@ -178,14 +178,14 @@ def test_check_user_ui(driver):
     assert user_email == user_email_element.get_attribute("value")
     assert user_id == user_id_element.get_attribute("value")
     assert user_name == user_name_element.get_attribute("value")
-    delete_user_ui(driver)
+    delete_user_web(driver)
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_update_user_ui(driver):
+def test_update_user_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
-    create_user_ui(randomData, driver)
-    login_user_ui(randomData, driver)
+    create_user_web(randomData, driver)
+    login_user_web(randomData, driver)
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_email = data['user_email']
@@ -213,14 +213,14 @@ def test_update_user_ui(driver):
     assert user_id == user_id_element.get_attribute("value")
     assert user_name == user_name_element.get_attribute("value")
     assert user_phone == user_phone_element.get_attribute("value")
-    delete_user_ui(driver)
+    delete_user_web(driver)
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_update_user_ui_ivalid_company_name(driver):
+def test_update_user_web_ivalid_company_name(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
-    create_user_ui(randomData, driver)
-    login_user_ui(randomData, driver)
+    create_user_web(randomData, driver)
+    login_user_web(randomData, driver)
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_email = data['user_email']
@@ -238,14 +238,14 @@ def test_update_user_ui_ivalid_company_name(driver):
     driver.find_element(By.CSS_SELECTOR, "button[class='btn btn-outline-primary']").click()
     ivalid_company_message = driver.find_element(By.XPATH, "//div[@class='invalid-feedback'][contains(.,'company name should be between 4 and 30 characters')]").is_displayed()
     assert ivalid_company_message == True
-    delete_user_ui(driver)
+    delete_user_web(driver)
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_update_user_ui_ivalid_phone_number(driver):
+def test_update_user_web_ivalid_phone_number(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
-    create_user_ui(randomData, driver)
-    login_user_ui(randomData, driver)
+    create_user_web(randomData, driver)
+    login_user_web(randomData, driver)
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_email = data['user_email']
@@ -263,14 +263,14 @@ def test_update_user_ui_ivalid_phone_number(driver):
     driver.find_element(By.CSS_SELECTOR, "button[class='btn btn-outline-primary']").click()
     ivalid_phone_message = driver.find_element(By.XPATH, "//div[@class='invalid-feedback'][contains(.,'Phone number should be between 8 and 20 digits')]").is_displayed()
     assert ivalid_phone_message == True
-    delete_user_ui(driver)
+    delete_user_web(driver)
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_update_user_password_ui(driver):
+def test_update_user_password_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
-    create_user_ui(randomData, driver)
-    login_user_ui(randomData, driver)
+    create_user_web(randomData, driver)
+    login_user_web(randomData, driver)
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_password = data['user_password']
@@ -285,14 +285,14 @@ def test_update_user_password_ui(driver):
     driver.find_element(By.XPATH, "//button[normalize-space()='Update password']").click()
     user_password_updated = driver.find_element(By.CSS_SELECTOR, "div[class='d-flex']").is_displayed()
     assert user_password_updated == True
-    delete_user_ui(driver)
+    delete_user_web(driver)
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_update_user_password_ui_same_password(driver):
+def test_update_user_password_web_same_password(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
-    create_user_ui(randomData, driver)
-    login_user_ui(randomData, driver)
+    create_user_web(randomData, driver)
+    login_user_web(randomData, driver)
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
         data = json.load(json_file)
     user_password = data['user_password']
@@ -306,29 +306,29 @@ def test_update_user_password_ui_same_password(driver):
     driver.find_element(By.XPATH, "//button[normalize-space()='Update password']").click()
     same_password_message = driver.find_element(By.XPATH, "//div[@class='toast-body'][contains(.,'The new password should be different from the current password')]").is_displayed()
     assert same_password_message == True
-    delete_user_ui(driver)
+    delete_user_web(driver)
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_logout_user_ui(driver):
+def test_logout_user_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
-    create_user_ui(randomData, driver)
-    login_user_ui(randomData, driver)
+    create_user_web(randomData, driver)
+    login_user_web(randomData, driver)
     driver.get("https://practice.expandtesting.com/notes/app/profile")
     driver.find_element(By.XPATH, "//button[normalize-space()='Logout']").click()
     for x in range(10):
         driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)        
     user_logged_out = driver.find_element(By.XPATH, "//a[normalize-space()='Login']").is_displayed()
     assert user_logged_out == True
-    login_user_ui(randomData, driver)
-    delete_user_ui(driver)
+    login_user_web(randomData, driver)
+    delete_user_web(driver)
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_delete_user_ui(driver):
+def test_delete_user_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
-    create_user_ui(randomData, driver)
-    login_user_ui(randomData, driver)
+    create_user_web(randomData, driver)
+    login_user_web(randomData, driver)
     driver.get("https://practice.expandtesting.com/notes/app/profile")
     for x in range(12):
         driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
@@ -340,7 +340,7 @@ def test_delete_user_ui(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-# def create_user_ui(randomData, driver):
+# def create_user_web(randomData, driver):
 #     user_email = Faker().company_email().replace("-", "")
 #     user_name = Faker().name()
 #     user_password = Faker().password(length=12, special_chars=False, digits=True, upper_case=True, lower_case=True)
@@ -365,7 +365,7 @@ def test_delete_user_ui(driver):
 #     with open(f"./tests/fixtures/file-{randomData}.json", 'w') as json_file:
 #         json.dump(combined_responses, json_file, indent=4)
 
-# def login_user_ui(randomData, driver):
+# def login_user_web(randomData, driver):
 #     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
 #         data = json.load(json_file)
 #     user_email = data['user_email']   
@@ -397,7 +397,7 @@ def test_delete_user_ui(driver):
 #     with open(f"./tests/fixtures/file-{randomData}.json", 'w') as json_file:
 #         json.dump(combined_responses, json_file, indent=4)
 
-# def delete_user_ui(driver):
+# def delete_user_web(driver):
 #     driver.get("https://practice.expandtesting.com/notes/app/profile")
 #     for x in range(12):
 #         driver.find_element(By.CSS_SELECTOR, "body").send_keys(Keys.DOWN)
