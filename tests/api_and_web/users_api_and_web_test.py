@@ -7,9 +7,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from faker import Faker
-from .support_web_and_api import create_user_api, delete_json_file, delete_user_api, login_user_web, login_user_api_getting_id, login_user_api
+from .support_api_and_web import create_user_api, delete_json_file, delete_user_api, login_user_web, login_user_api_getting_id, login_user_api
 
-def test_create_user_web_and_api(driver):
+def test_create_user_api_and_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     user_email = Faker().company_email().replace("-", "")
     user_name = Faker().name()
@@ -39,7 +39,7 @@ def test_create_user_web_and_api(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_login_user_web_and_api(driver):
+def test_login_user_api_and_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
@@ -76,7 +76,7 @@ def test_login_user_web_and_api(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_login_user_web_and_api_invalid_email(driver):
+def test_login_user_api_and_web_invalid_email(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
@@ -100,7 +100,7 @@ def test_login_user_web_and_api_invalid_email(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_login_user_web_and_api_wrong_password(driver):
+def test_login_user_api_and_web_wrong_password(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     with open(f"./tests/fixtures/file-{randomData}.json", 'r') as json_file:
@@ -124,7 +124,7 @@ def test_login_user_web_and_api_wrong_password(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_check_user_web_and_api(driver):
+def test_check_user_api_and_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     login_user_web(randomData, driver)
@@ -146,7 +146,7 @@ def test_check_user_web_and_api(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_update_user_web_and_api(driver):
+def test_update_user_api_and_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     login_user_web(randomData, driver)
@@ -182,7 +182,7 @@ def test_update_user_web_and_api(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_update_user_web_and_api_ivalid_company_name(driver):
+def test_update_user_api_and_web_ivalid_company_name(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     login_user_web(randomData, driver)
@@ -208,7 +208,7 @@ def test_update_user_web_and_api_ivalid_company_name(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_update_user_web_and_api_ivalid_phone_number(driver):
+def test_update_user_api_and_web_ivalid_phone_number(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     login_user_web(randomData, driver)
@@ -234,7 +234,7 @@ def test_update_user_web_and_api_ivalid_phone_number(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_update_user_password_web_and_api(driver):
+def test_update_user_password_api_and_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     login_user_web(randomData, driver)
@@ -257,7 +257,7 @@ def test_update_user_password_web_and_api(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_update_user_password_web_and_api_same_password(driver):
+def test_update_user_password_api_and_web_same_password(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     login_user_web(randomData, driver)
@@ -279,7 +279,7 @@ def test_update_user_password_web_and_api_same_password(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_logout_user_web_and_api(driver):
+def test_logout_user_api_and_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     login_user_web(randomData, driver)
@@ -294,7 +294,7 @@ def test_logout_user_web_and_api(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_delete_user_web_and_api(driver):
+def test_delete_user_api_and_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     login_user_web(randomData, driver)

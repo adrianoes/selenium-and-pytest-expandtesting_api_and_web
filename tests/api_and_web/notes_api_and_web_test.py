@@ -8,9 +8,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from faker import Faker
 from selenium.webdriver.support.ui import Select
-from .support_web_and_api import create_note_web, create_user_api, delete_json_file, delete_user_api, login_user_web
+from .support_api_and_web import create_note_web, create_user_api, delete_json_file, delete_user_api, login_user_web
 
-def test_create_note_web_and_api(driver):
+def test_create_note_api_and_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     login_user_web(randomData, driver)
@@ -76,7 +76,7 @@ def test_create_note_web_and_api(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_create_note_web_and_api_invalid_title(driver):
+def test_create_note_api_and_web_invalid_title(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     login_user_web(randomData, driver)
@@ -104,7 +104,7 @@ def test_create_note_web_and_api_invalid_title(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_create_note_web_and_api_invalid_description(driver):
+def test_create_note_api_and_web_invalid_description(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     login_user_web(randomData, driver)
@@ -132,7 +132,7 @@ def test_create_note_web_and_api_invalid_description(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_check_notes_web_and_api(driver):
+def test_check_notes_api_and_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     login_user_web(randomData, driver)
@@ -190,7 +190,7 @@ def test_check_notes_web_and_api(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_check_note_web_and_api(driver):
+def test_check_note_api_and_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     login_user_web(randomData, driver)
@@ -238,7 +238,7 @@ def test_check_note_web_and_api(driver):
     delete_json_file(randomData)
     time.sleep(5)
     
-def test_update_note_web_and_api(driver):
+def test_update_note_api_and_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     login_user_web(randomData, driver)
@@ -312,7 +312,7 @@ def test_update_note_web_and_api(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_update_note_web_and_api_invalid_title(driver):
+def test_update_note_api_and_web_invalid_title(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     login_user_web(randomData, driver)
@@ -339,7 +339,7 @@ def test_update_note_web_and_api_invalid_title(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_update_note_web_and_api_invalid_description(driver):
+def test_update_note_api_and_web_invalid_description(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     login_user_web(randomData, driver)
@@ -366,7 +366,7 @@ def test_update_note_web_and_api_invalid_description(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_update_note_status_web_and_api(driver):
+def test_update_note_status_api_and_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     login_user_web(randomData, driver)
@@ -428,7 +428,7 @@ def test_update_note_status_web_and_api(driver):
     delete_json_file(randomData)
     time.sleep(5)
 
-def test_delete_note_web_and_api(driver):
+def test_delete_note_api_and_web(driver):
     randomData = Faker().hexify(text='^^^^^^^^^^^^')
     create_user_api(randomData)
     login_user_web(randomData, driver)
