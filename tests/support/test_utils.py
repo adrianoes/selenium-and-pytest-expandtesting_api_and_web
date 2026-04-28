@@ -2,7 +2,7 @@ from tests.support.api_constants import API_USERS_BASE, API_NOTES_BASE
 import os
 import json
 
-FIXTURE_DIR = os.path.join(os.path.dirname(__file__), '../fixtures/tmp_data')
+FIXTURE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../test_artifacts/fixtures_tmp_data'))
 
 # Utility to create a unique fixture key
 def create_fixture_key():

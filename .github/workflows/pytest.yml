@@ -26,10 +26,18 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
           pip install --upgrade pip
-          pip install -r requirements.txt      
+          pip install -r requirements.txt     
+          
+      - name: Setup JIRA credentials
+        run: |
+          echo "JIRA_BASE_URL=${{ secrets.JIRA_BASE_URL }}" >> .env
+          echo "JIRA_EMAIL=${{ secrets.JIRA_EMAIL }}" >> .env
+          echo "JIRA_API_SECRET=${{ secrets.JIRA_API_SECRET }}" >> .env
+          echo "JIRA_PROJECT_KEY=${{ secrets.JIRA_PROJECT_KEY }}" >> .env
+          echo "JIRA_ISSUE_TYPE=${{ secrets.JIRA_ISSUE_TYPE }}" >> .env          
 
-      - name: Run tests
-        run: pytest ./tests -v --html=./reports/report.html
+      - name: Run tests and create JIRA tickets
+        run: python run_tests_with_jira.py
 
       - name: Test Report Generation
         uses: actions/upload-artifact@v4

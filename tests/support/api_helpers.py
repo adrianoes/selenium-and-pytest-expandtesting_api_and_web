@@ -3,6 +3,9 @@ import requests
 from tests.data.faker_manager import generate_user_data
 from tests.support.api_constants import API_USERS_ENDPOINTS
 from tests.support.test_utils import users_url, save_fixture_data, read_fixture_data, delete_fixture_data
+from tests.support.api_constants import API_MESSAGES
+from tests.support.test_utils import notes_url
+from tests.data.faker_manager import generate_note_data
 
 def create_user(fixture_key):
     """
@@ -67,11 +70,6 @@ def delete_user(fixture_key):
     assert del_resp.status_code == 200, f"Status esperado 200, recebido {del_resp.status_code}"
     assert del_body['message'] == API_MESSAGES['ACCOUNT_DELETED_SUCCESSFULLY']
     delete_fixture_data(fixture_key)
-
-# Helpers para notas
-from tests.support.api_constants import API_NOTES_BASE, API_MESSAGES
-from tests.support.test_utils import notes_url
-from tests.data.faker_manager import generate_note_data
 
 def create_note(fixture_key, note_data=None):
     """

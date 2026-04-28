@@ -4,15 +4,16 @@ API and web testing in [expandtesting](https://practice.expandtesting.com/notes/
 
 # Pre-requirements:
 
-| Requirement                     | Version        | Note                                                            |
-| :------------------------------ |:---------------| :-------------------------------------------------------------- |
-| Visual Studio Code              | 1.117.0        | -                                                               |
-| Python                          | 3.13.4         | -                                                               |
-| Python extension                | 2026.4.0       | -                                                               | 
-| Pytest                          | 8.4.1          | -                                                               |
-| Faker                           | 37.4.0         | -                                                               |
-| requests                        | 2.32.3         | -                                                               |
-| pytest-html                     | 4.1.1          | -                                                               |
+| Requirement                     | Version        | Note          |
+| :------------------------------ |:---------------| :-------------|
+| Visual Studio Code              | 1.117.0        | -             |
+| Python                          | 3.13.4         | -             |
+| Python extension                | 2026.4.0       | -             | 
+| Pytest                          | 8.4.1          | -             |
+| Faker                           | 37.4.0         | -             |
+| requests                        | 2.32.3         | -             |
+| pytest-html                     | 4.1.1          | -             |
+| python-dotenv                   | 1.2.1          | -             |
           
 # Installation:
 
@@ -29,11 +30,19 @@ and keep all the other preferenced options as they are.
 - Open windows prompt as admin and execute ```pip install Faker``` to install Faker library.
 - Open windows prompt as admin and execute ```pip install requests``` to install Requests library.
 - Open windows prompt as admin and execute ```pip install pytest-html``` to install pytest-html plugin.
+- Open windows prompt as admin and execute ```pip install python-dotenv``` to install python-dotenv.
 
 # Tests:
 
-- Execute ```pytest ./tests -v --html=./reports/report.html``` to run tests in verbose mode and generate a report inside reports folder.
-- Execute ```pytest ./tests/api/users_api_test.py -k create_user_api -v --html=./reports/report.html``` to run tests that contains "create_user_api" in its structure inside users_api_test.py file in verbose mode and generate a report inside reports folder.
+- Run ```pytest ./tests/api/test_users_api.py -m basic -v --html=./reports/report.html``` to execute all positive tests in a file in verbose mode with HTML report.
+- Run ```pytest ./tests/api/test_users_api.py -m negative -v --html=./reports/report.html``` to execute all negative tests in a file in verbose mode with HTML report.
+- Run ```pytest ./tests -m basic -v --html=./reports/report.html``` to execute all positive in verbose mode with HTML report.
+- Run ```pytest ./tests -m negative -v --html=./reports/report.html``` to execute all negative in verbose mode with HTML report.
+- Run `pytest ./tests -v --html=./reports/report.html` to execute all tests in verbose mode and generate an HTML report in the reports folder in verbose mode with HTML report.
+- Run `pytest ./tests/api/test_users_api.py -v --html=./reports/report.html` to execute only tests inside test_users_api.py, in verbose mode with HTML report.
+- Run `pytest ./tests/api/test_users_api.py -k create_user -v --html=./reports/report.html` to execute only tests containing "create_user" in their name inside test_users_api.py, in verbose mode with HTML report.
+- Run `python run_tests_with_jira.py` to execute all tests and automatically create JIRA issues for any failures in a single command. Run `python jira_reporter.py` to manually create JIRA issues for failed tests after reviewing the results.
+- In Visual Studio Code, click the :point_right: **Testing** button on the left sidebar and choose the tests to execute.
 
 # Support:
 
@@ -59,5 +68,7 @@ and keep all the other preferenced options as they are.
 
 # Tips:
 
-- API tests to verify a password reset token and reset a user's password must be tested manually as they rely on e-mail verification. 
-- delete_note_api was created only with the practice purpose since there is the possibility to delete the user right away. 
+- The `run_tests_with_jira.py` script runs the tests and automatically creates JIRA issues for any failures, using the configuration from your `.env` file.
+- The `python-dotenv` package is required to read variables from `.env` and is already listed in requirements.txt.
+- Test artifacts (results, logs, screenshots) are saved in `test_artifacts/` and used to provide details in the JIRA issues.
+- To create JIRA issues only after a test run, use `python jira_reporter.py`.
