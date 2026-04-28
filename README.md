@@ -14,6 +14,9 @@ API and web testing in [expandtesting](https://practice.expandtesting.com/notes/
 | requests                        | 2.32.3         | -             |
 | pytest-html                     | 4.1.1          | -             |
 | python-dotenv                   | 1.2.1          | -             |
+| Selenium                        | 4.25.0         | -             |
+| webdriver-manager               | 4.0.2          | -             |
+| SelectorsHub                    | 5.7.0          | -             |
           
 # Installation:
 
@@ -31,6 +34,10 @@ and keep all the other preferenced options as they are.
 - Open windows prompt as admin and execute ```pip install requests``` to install Requests library.
 - Open windows prompt as admin and execute ```pip install pytest-html``` to install pytest-html plugin.
 - Open windows prompt as admin and execute ```pip install python-dotenv``` to install python-dotenv.
+- Open windows prompt as admin and execute ```pip install selenium``` to install Selenium.
+- Open windows prompt as admin and execute ```pip install webdriver-manager``` to install webdriver-manager.
+- See [SelectorsHub page](https://chromewebstore.google.com/detail/selectorshub-xpath-helper/ndgimibanhlabgdgjcpbbndiehljcpfh?hl=pt-BR&utm_source=ext_sidebar) and install it.
+
 
 # Tests:
 

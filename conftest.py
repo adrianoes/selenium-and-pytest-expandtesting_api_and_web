@@ -1,4 +1,41 @@
 import pytest
+import undetected_chromedriver as uc
+from webdriver_manager.chrome import ChromeDriverManager
+
+@pytest.fixture(scope="module")
+def driver():
+    chromedriver_path = ChromeDriverManager().install()
+    options = uc.ChromeOptions()
+    options.add_argument("--start-maximized")
+    options.add_argument("--headless=new")  # Removido para execução visível
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    # Desabilita o gerenciador de senhas e o prompt de salvar senha
+    prefs = {
+        "profile.default_content_setting_values.ads": 2,
+        "profile.default_content_setting_values.popups": 2,
+        "credentials_enable_service": False,
+        "profile.password_manager_enabled": False,
+    }
+    options.add_experimental_option("prefs", prefs)
+
+    driver = uc.Chrome(driver_executable_path=chromedriver_path, options=options)
+    try:
+        driver.maximize_window()
+    except Exception:
+        pass
+    driver.execute_cdp_cmd("Network.setBlockedURLs", {
+        "urls": ["*ads*", "*doubleclick.net*", "*googlesyndication.com*"]
+    })
+    driver.execute_cdp_cmd("Network.enable", {})
+    driver.implicitly_wait(5)
+    yield driver
+    # driver.quit()  # Comentado para manter o navegador aberto para depuração
+import pytest
+
+# URL base global para testes web
+BASE_URL = "https://practice.expandtesting.com"
+import pytest
 import os
 import json
 from datetime import datetime
